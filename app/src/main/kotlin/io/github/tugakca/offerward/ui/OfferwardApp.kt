@@ -17,6 +17,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import io.github.tugakca.offerward.feature.applications.navigation.ApplicationDetailKey
 import io.github.tugakca.offerward.feature.applications.navigation.applicationsEntries
 import io.github.tugakca.offerward.feature.discover.navigation.JobDetailKey
 import io.github.tugakca.offerward.feature.discover.navigation.discoverEntries
@@ -54,9 +55,14 @@ fun OfferwardApp(modifier: Modifier = Modifier) {
             entryProvider = entryProvider {
                 discoverEntries(
                     onJobClick = { jobId -> backStack.add(JobDetailKey(jobId)) },
+                    onOpenApplication = { jobId -> backStack.add(ApplicationDetailKey(jobId)) },
                     onBack = { backStack.removeLastOrNull() },
                 )
-                applicationsEntries()
+                applicationsEntries(
+                    onApplicationClick = { jobId -> backStack.add(ApplicationDetailKey(jobId)) },
+                    onBrowseJobs = { backStack.navigateToTopLevel(TopLevelDestination.DISCOVER) },
+                    onBack = { backStack.removeLastOrNull() },
+                )
             },
         )
     }

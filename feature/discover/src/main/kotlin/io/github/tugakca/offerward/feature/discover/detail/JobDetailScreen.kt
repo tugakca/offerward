@@ -63,6 +63,7 @@ import java.time.Instant
 internal fun JobDetailRoute(
     jobId: String,
     onBack: () -> Unit,
+    onOpenApplication: (jobId: String) -> Unit,
     viewModel: JobDetailViewModel = hiltViewModel<JobDetailViewModel, JobDetailViewModel.Factory>(
         key = jobId,
         creationCallback = { factory -> factory.create(jobId) },
@@ -74,6 +75,7 @@ internal fun JobDetailRoute(
         state = state,
         onBack = onBack,
         onTrack = { viewModel.onAction(JobDetailAction.Track) },
+        onOpenApplication = { onOpenApplication(jobId) },
         onOpenUrl = context::openUrl,
     )
 }
@@ -84,6 +86,7 @@ internal fun JobDetailScreen(
     state: JobDetailUiState,
     onBack: () -> Unit,
     onTrack: () -> Unit,
+    onOpenApplication: () -> Unit,
     onOpenUrl: (String) -> Unit,
     modifier: Modifier = Modifier,
     now: Instant = Instant.now(),
@@ -126,6 +129,7 @@ internal fun JobDetailScreen(
                     applicationStatus = state.applicationStatus,
                     now = now,
                     onTrack = onTrack,
+                    onOpenApplication = onOpenApplication,
                     onOpenUrl = onOpenUrl,
                 )
             }
@@ -139,6 +143,7 @@ private fun JobDetailContent(
     applicationStatus: ApplicationStatus?,
     now: Instant,
     onTrack: () -> Unit,
+    onOpenApplication: () -> Unit,
     onOpenUrl: (String) -> Unit,
 ) {
     Column(
@@ -173,8 +178,8 @@ private fun JobDetailContent(
                 Text(stringResource(R.string.feature_discover_apply))
             }
             OutlinedButton(
-                onClick = onTrack,
-                enabled = applicationStatus == null,
+                // Once tracked, the same button leads to the application instead.
+                onClick = if (applicationStatus == null) onTrack else onOpenApplication,
                 modifier = Modifier.weight(1f),
             ) {
                 if (applicationStatus != null) {
@@ -237,6 +242,7 @@ private fun JobDetailScreenPreview() {
             state = JobDetailUiState.Loaded(previewJob, applicationStatus = null),
             onBack = {},
             onTrack = {},
+            onOpenApplication = {},
             onOpenUrl = {},
             now = Instant.parse("2026-11-10T12:00:00Z"),
         )
