@@ -1,12 +1,12 @@
 # Offerward
 
-Find remote Android jobs and track every application from "saved" to "offer", all offline-first on your phone.
+Browse the newest remote developer jobs and track every application from "saved" to "offer", all offline-first on your phone.
 
 > Work in progress. The MVP is being built in the open; see the roadmap below.
 
 ## Why
 
-I built Offerward for my own job search. Job boards are good at listing jobs and bad at remembering what you did with them. Offerward pulls remote jobs you can actually apply to from your country from [Himalayas](https://himalayas.app), lets you filter them on the device, and keeps a simple pipeline of your applications, interview dates and notes.
+I built Offerward for my own job search. Job boards are good at listing jobs and bad at remembering what you did with them. Offerward pulls the newest remote developer jobs from [Himalayas](https://himalayas.app), shows where each one hires from, lets you filter them on the device, and keeps a simple pipeline of your applications, interview dates and notes.
 
 ## Tech
 
@@ -35,7 +35,7 @@ An AI module lands with the job summary feature.
 
 - [x] Project skeleton, build-logic, CI
 - [x] Himalayas API client and Room cache (offline-first, refresh policy)
-- [ ] Discover: list, search, filters, job detail
+- [x] Discover: list, search, filters, pull-to-refresh, job detail
 - [ ] Applications: pipeline, notes, interview date
 - [ ] Release setup, Crashlytics, closed testing on Google Play
 - [ ] On-device job summary with ML Kit GenAI (Gemini Nano), hidden on unsupported devices
@@ -54,9 +54,11 @@ Requires JDK 17 and the Android SDK (compileSdk 37).
 
 **Offline-first, Room is the single source of truth.** Screens only observe Room. The network only writes into the cache, so the app opens instantly and works without a connection. A failed refresh keeps the old jobs rather than showing an empty screen.
 
-**A refresh policy instead of refreshing on every screen open.** The source updates its data daily, so automatic refreshes run at most every 6 hours and pull-to-refresh at most every 15 minutes. Changing the country is the exception: the cache no longer matches, so the next refresh always runs.
+**A refresh policy instead of refreshing on every screen open.** The source updates its data daily, so automatic refreshes run at most every 6 hours and pull-to-refresh at most every 15 minutes. When pull-to-refresh is skipped, the app says when the next one is allowed.
 
-**Country on the server, everything else on the device.** "Remote" often means "remote, but only from Poland". The search is scoped to the user's country (`country=TR` by default for a Turkish device), which the API answers with jobs open to that country, including worldwide ones. Text search and the Android / Senior / Worldwide chips run as Room queries, so changing a filter costs no request.
+**One broad query on the server, every filter on the device.** The app fetches the 100 newest jobs matching "developer" from every country. Measured on the live API, that query returns about 95% software roles, while the unfiltered feed is mostly non-tech. Text search and the Android / Senior / Worldwide chips are Room queries, so changing a filter costs no request. Each card shows where the company hires from, because "remote" often means "remote, but only from one country".
+
+**MVI on every screen.** One immutable `UiState`, actions in through a single `onAction`, a pure `reduce(state, mutation)` function, and one-off effects (snackbars) through a `Channel` so they are shown once and not replayed on rotation. The reducer and the ViewModel are covered by plain JVM tests.
 
 **Applications keep a snapshot of the job.** There is deliberately no foreign key from applications to jobs. Jobs leave the cache when they expire, and an application you are in the middle of must not disappear with them.
 
