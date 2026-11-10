@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="feature_discover_search_hint">Должность или компания</string>
+  <string name="feature_discover_clear_search">Очистить поиск</string>
+  <string name="feature_discover_filter_senior">Senior</string>
+  <string name="feature_discover_worldwide">Весь мир</string>
+  <plurals name="feature_discover_open_in_countries">
+    <item quantity="one">Открыта в %d стране</item>
+    <item quantity="few">Открыта в %d странах</item>
+    <item quantity="many">Открыта в %d странах</item>
+    <item quantity="other">Открыта в %d страны</item>
+  </plurals>
+  <string name="feature_discover_no_matches">Нет вакансий по этим фильтрам.</string>
+  <string name="feature_discover_clear_filters">Сбросить фильтры</string>
+  <string name="feature_discover_empty">Вакансий пока нет.</string>
+  <string name="feature_discover_error">Не удалось загрузить вакансии. Проверьте подключение и повторите попытку.</string>
+  <string name="feature_discover_retry">Повторить</string>
+  <string name="feature_discover_refresh_failed">Не удалось обновить. Показаны сохранённые вакансии.</string>
+  <string name="feature_discover_up_to_date">Вакансии актуальны. Следующее обновление после %1$s.</string>
+  <string name="feature_discover_attribution">Вакансии с Himalayas и Jobicy</string>
+  <string name="feature_discover_sources_unavailable">Не удалось подключиться к %1$s. Показаны сохранённые вакансии оттуда.</string>
+  <string name="feature_discover_back">Назад</string>
+  <string name="feature_discover_apply">Откликнуться</string>
+  <string name="feature_discover_track">Отслеживать отклик</string>
+  <string name="feature_discover_tracked">Открыть отклик</string>
+  <string name="feature_discover_view_on_source">Открыть на %1$s</string>
+  <string name="feature_discover_open_to">Доступна для</string>
+  <string name="feature_discover_show_all">Показать все</string>
+  <string name="feature_discover_posted">Опубликована %1$s</string>
+  <string name="feature_discover_job_not_found">Эта вакансия больше не опубликована.</string>
+  <string name="feature_discover_salary_per_year">%1$s / год</string>
+  <string name="feature_discover_salary_per_month">%1$s / мес.</string>
+  <string name="feature_discover_salary_per_week">%1$s / нед.</string>
+  <string name="feature_discover_salary_per_hour">%1$s / час</string>
+</resources>

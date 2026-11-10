@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="tab_discover">探す</string>
+  <string name="tab_applications">応募</string>
+</resources>

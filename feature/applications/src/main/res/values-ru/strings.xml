@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="feature_applications_status_saved">Сохранено</string>
+  <string name="feature_applications_status_applied">Отправлено</string>
+  <string name="feature_applications_status_interview">Собеседование</string>
+  <string name="feature_applications_status_offer">Оффер</string>
+  <string name="feature_applications_status_rejected">Отказ</string>
+  <string name="feature_applications_interview_at">Собеседование: %1$s</string>
+  <string name="feature_applications_empty_title">Откликов пока нет</string>
+  <string name="feature_applications_empty_body">Откройте вакансию в разделе «Обзор» и нажмите «Отслеживать отклик», чтобы вести её от сохранения до оффера.</string>
+  <string name="feature_applications_browse_jobs">Смотреть вакансии</string>
+  <string name="feature_applications_back">Назад</string>
+  <string name="feature_applications_stage">Этап</string>
+  <string name="feature_applications_interview">Дата собеседования</string>
+  <string name="feature_applications_set_interview">Указать дату собеседования</string>
+  <string name="feature_applications_change">Изменить</string>
+  <string name="feature_applications_clear">Очистить</string>
+  <string name="feature_applications_notes">Заметки</string>
+  <string name="feature_applications_notes_hint">Рекрутер, обсуждение зарплаты, вопросы…</string>
+  <string name="feature_applications_open_posting">Открыть вакансию</string>
+  <string name="feature_applications_stop_tracking">Перестать отслеживать</string>
+  <string name="feature_applications_stop_tracking_title">Перестать отслеживать вакансию?</string>
+  <string name="feature_applications_stop_tracking_body">Этап, заметки и дата собеседования будут удалены.</string>
+  <string name="feature_applications_cancel">Отмена</string>
+  <string name="feature_applications_ok">ОК</string>
+  <string name="feature_applications_next">Далее</string>
+  <string name="feature_applications_not_found">Этот отклик больше не существует.</string>
+  <string name="feature_applications_tracked_since">Отслеживается с %1$s</string>
+</resources>

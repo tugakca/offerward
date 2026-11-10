@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="feature_applications_status_saved">保存済み</string>
+  <string name="feature_applications_status_applied">応募済み</string>
+  <string name="feature_applications_status_interview">面接</string>
+  <string name="feature_applications_status_offer">内定</string>
+  <string name="feature_applications_status_rejected">不採用</string>
+  <string name="feature_applications_interview_at">面接: %1$s</string>
+  <string name="feature_applications_empty_title">まだ応募はありません</string>
+  <string name="feature_applications_empty_body">「探す」で求人を開き「応募を管理」をタップすると、保存から内定まで追跡できます。</string>
+  <string name="feature_applications_browse_jobs">求人を見る</string>
+  <string name="feature_applications_back">戻る</string>
+  <string name="feature_applications_stage">ステージ</string>
+  <string name="feature_applications_interview">面接日</string>
+  <string name="feature_applications_set_interview">面接日を設定</string>
+  <string name="feature_applications_change">変更</string>
+  <string name="feature_applications_clear">クリア</string>
+  <string name="feature_applications_notes">メモ</string>
+  <string name="feature_applications_notes_hint">採用担当者、給与交渉、聞きたいこと…</string>
+  <string name="feature_applications_open_posting">求人ページを開く</string>
+  <string name="feature_applications_stop_tracking">管理をやめる</string>
+  <string name="feature_applications_stop_tracking_title">この求人の管理をやめますか？</string>
+  <string name="feature_applications_stop_tracking_body">ステージ、メモ、面接日が削除されます。</string>
+  <string name="feature_applications_cancel">キャンセル</string>
+  <string name="feature_applications_ok">OK</string>
+  <string name="feature_applications_next">次へ</string>
+  <string name="feature_applications_not_found">この応募はもう存在しません。</string>
+  <string name="feature_applications_tracked_since">%1$sから管理中</string>
+</resources>

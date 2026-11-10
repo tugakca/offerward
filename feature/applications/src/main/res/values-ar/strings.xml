@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="feature_applications_status_saved">محفوظ</string>
+  <string name="feature_applications_status_applied">تم التقديم</string>
+  <string name="feature_applications_status_interview">مقابلة</string>
+  <string name="feature_applications_status_offer">عرض</string>
+  <string name="feature_applications_status_rejected">مرفوض</string>
+  <string name="feature_applications_interview_at">المقابلة: %1$s</string>
+  <string name="feature_applications_empty_title">لا توجد طلبات بعد</string>
+  <string name="feature_applications_empty_body">افتح وظيفة في «استكشاف» واضغط «تتبّع الطلب» لمتابعتها من الحفظ حتى العرض.</string>
+  <string name="feature_applications_browse_jobs">تصفّح الوظائف</string>
+  <string name="feature_applications_back">رجوع</string>
+  <string name="feature_applications_stage">المرحلة</string>
+  <string name="feature_applications_interview">موعد المقابلة</string>
+  <string name="feature_applications_set_interview">تحديد موعد المقابلة</string>
+  <string name="feature_applications_change">تغيير</string>
+  <string name="feature_applications_clear">مسح</string>
+  <string name="feature_applications_notes">ملاحظات</string>
+  <string name="feature_applications_notes_hint">مسؤول التوظيف، مفاوضات الراتب، أسئلة لطرحها…</string>
+  <string name="feature_applications_open_posting">فتح إعلان الوظيفة</string>
+  <string name="feature_applications_stop_tracking">إيقاف التتبّع</string>
+  <string name="feature_applications_stop_tracking_title">هل تريد إيقاف تتبّع هذه الوظيفة؟</string>
+  <string name="feature_applications_stop_tracking_body">ستُحذف مرحلتها وملاحظاتها وموعد مقابلتها.</string>
+  <string name="feature_applications_cancel">إلغاء</string>
+  <string name="feature_applications_ok">حسنًا</string>
+  <string name="feature_applications_next">التالي</string>
+  <string name="feature_applications_not_found">هذا الطلب لم يعد موجودًا.</string>
+  <string name="feature_applications_tracked_since">قيد التتبّع منذ %1$s</string>
+</resources>

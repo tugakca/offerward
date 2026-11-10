@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="feature_applications_status_saved">Kaydedildi</string>
+  <string name="feature_applications_status_applied">Başvuruldu</string>
+  <string name="feature_applications_status_interview">Mülakat</string>
+  <string name="feature_applications_status_offer">Teklif</string>
+  <string name="feature_applications_status_rejected">Reddedildi</string>
+  <string name="feature_applications_interview_at">Mülakat: %1$s</string>
+  <string name="feature_applications_empty_title">Henüz başvuru yok</string>
+  <string name="feature_applications_empty_body">Keşfet\'te bir ilan aç ve Başvuruyu takip et\'e dokun; ilanı kaydettiğin andan teklife kadar izle.</string>
+  <string name="feature_applications_browse_jobs">İlanlara göz at</string>
+  <string name="feature_applications_back">Geri</string>
+  <string name="feature_applications_stage">Aşama</string>
+  <string name="feature_applications_interview">Mülakat tarihi</string>
+  <string name="feature_applications_set_interview">Mülakat tarihi ekle</string>
+  <string name="feature_applications_change">Değiştir</string>
+  <string name="feature_applications_clear">Temizle</string>
+  <string name="feature_applications_notes">Notlar</string>
+  <string name="feature_applications_notes_hint">İşe alımcı, maaş görüşmesi, sorulacak sorular…</string>
+  <string name="feature_applications_open_posting">İlanı aç</string>
+  <string name="feature_applications_stop_tracking">Takibi bırak</string>
+  <string name="feature_applications_stop_tracking_title">Bu ilanın takibi bırakılsın mı?</string>
+  <string name="feature_applications_stop_tracking_body">Aşaması, notları ve mülakat tarihi silinecek.</string>
+  <string name="feature_applications_cancel">İptal</string>
+  <string name="feature_applications_ok">Tamam</string>
+  <string name="feature_applications_next">İleri</string>
+  <string name="feature_applications_not_found">Bu başvuru artık yok.</string>
+  <string name="feature_applications_tracked_since">%1$s tarihinden beri takipte</string>
+</resources>

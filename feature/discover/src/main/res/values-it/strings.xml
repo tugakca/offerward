@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="feature_discover_search_hint">Cerca per titolo o azienda</string>
+  <string name="feature_discover_clear_search">Cancella ricerca</string>
+  <string name="feature_discover_filter_senior">Senior</string>
+  <string name="feature_discover_worldwide">Tutto il mondo</string>
+  <plurals name="feature_discover_open_in_countries">
+    <item quantity="one">Aperto in %d paese</item>
+    <item quantity="many">Aperto in %d paesi</item>
+    <item quantity="other">Aperto in %d paesi</item>
+  </plurals>
+  <string name="feature_discover_no_matches">Nessun annuncio corrisponde a questi filtri.</string>
+  <string name="feature_discover_clear_filters">Rimuovi filtri</string>
+  <string name="feature_discover_empty">Ancora nessun annuncio.</string>
+  <string name="feature_discover_error">Impossibile caricare gli annunci. Controlla la connessione e riprova.</string>
+  <string name="feature_discover_retry">Riprova</string>
+  <string name="feature_discover_refresh_failed">Aggiornamento non riuscito. Mostro gli annunci salvati.</string>
+  <string name="feature_discover_up_to_date">Gli annunci sono aggiornati. Prossimo aggiornamento dopo le %1$s.</string>
+  <string name="feature_discover_attribution">Annunci da Himalayas e Jobicy</string>
+  <string name="feature_discover_sources_unavailable">Impossibile raggiungere %1$s. Mostro i suoi annunci salvati.</string>
+  <string name="feature_discover_back">Indietro</string>
+  <string name="feature_discover_apply">Candidati</string>
+  <string name="feature_discover_track">Segui candidatura</string>
+  <string name="feature_discover_tracked">Vedi candidatura</string>
+  <string name="feature_discover_view_on_source">Vedi su %1$s</string>
+  <string name="feature_discover_open_to">Aperto a</string>
+  <string name="feature_discover_show_all">Mostra tutto</string>
+  <string name="feature_discover_posted">Pubblicato %1$s</string>
+  <string name="feature_discover_job_not_found">Questo annuncio non è più disponibile.</string>
+  <string name="feature_discover_salary_per_year">%1$s / anno</string>
+  <string name="feature_discover_salary_per_month">%1$s / mese</string>
+  <string name="feature_discover_salary_per_week">%1$s / settimana</string>
+  <string name="feature_discover_salary_per_hour">%1$s / ora</string>
+</resources>

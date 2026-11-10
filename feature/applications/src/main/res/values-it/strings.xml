@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="feature_applications_status_saved">Salvata</string>
+  <string name="feature_applications_status_applied">Inviata</string>
+  <string name="feature_applications_status_interview">Colloquio</string>
+  <string name="feature_applications_status_offer">Offerta</string>
+  <string name="feature_applications_status_rejected">Rifiutata</string>
+  <string name="feature_applications_interview_at">Colloquio: %1$s</string>
+  <string name="feature_applications_empty_title">Ancora nessuna candidatura</string>
+  <string name="feature_applications_empty_body">Apri un annuncio in Scopri e tocca Segui candidatura per seguirlo dal salvataggio all\'offerta.</string>
+  <string name="feature_applications_browse_jobs">Sfoglia annunci</string>
+  <string name="feature_applications_back">Indietro</string>
+  <string name="feature_applications_stage">Fase</string>
+  <string name="feature_applications_interview">Data del colloquio</string>
+  <string name="feature_applications_set_interview">Imposta data del colloquio</string>
+  <string name="feature_applications_change">Modifica</string>
+  <string name="feature_applications_clear">Rimuovi</string>
+  <string name="feature_applications_notes">Note</string>
+  <string name="feature_applications_notes_hint">Recruiter, trattativa sullo stipendio, domande da fare…</string>
+  <string name="feature_applications_open_posting">Apri annuncio</string>
+  <string name="feature_applications_stop_tracking">Smetti di seguire</string>
+  <string name="feature_applications_stop_tracking_title">Smettere di seguire questo annuncio?</string>
+  <string name="feature_applications_stop_tracking_body">Fase, note e data del colloquio verranno eliminate.</string>
+  <string name="feature_applications_cancel">Annulla</string>
+  <string name="feature_applications_ok">OK</string>
+  <string name="feature_applications_next">Avanti</string>
+  <string name="feature_applications_not_found">Questa candidatura non esiste più.</string>
+  <string name="feature_applications_tracked_since">Seguita dal %1$s</string>
+</resources>
