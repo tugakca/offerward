@@ -1,0 +1,233 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "474f97a9f4bbaeaf40b192bcc203ef09",
+    "entities": [
+      {
+        "tableName": "jobs",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `company_name` TEXT NOT NULL, `company_logo_url` TEXT, `employment_type` TEXT, `seniority` TEXT NOT NULL, `location_restrictions` TEXT NOT NULL, `is_worldwide` INTEGER NOT NULL, `is_senior` INTEGER NOT NULL, `salary_min` REAL, `salary_max` REAL, `salary_currency` TEXT, `salary_period` TEXT, `excerpt` TEXT NOT NULL, `description_html` TEXT NOT NULL, `published_at` INTEGER NOT NULL, `expires_at` INTEGER, `application_url` TEXT NOT NULL, `source_url` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "companyName",
+            "columnName": "company_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "companyLogoUrl",
+            "columnName": "company_logo_url",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "employmentType",
+            "columnName": "employment_type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "seniority",
+            "columnName": "seniority",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locationRestrictions",
+            "columnName": "location_restrictions",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isWorldwide",
+            "columnName": "is_worldwide",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSenior",
+            "columnName": "is_senior",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "salaryMin",
+            "columnName": "salary_min",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "salaryMax",
+            "columnName": "salary_max",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "salaryCurrency",
+            "columnName": "salary_currency",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "salaryPeriod",
+            "columnName": "salary_period",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "excerpt",
+            "columnName": "excerpt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descriptionHtml",
+            "columnName": "description_html",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "publishedAt",
+            "columnName": "published_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "expiresAt",
+            "columnName": "expires_at",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "applicationUrl",
+            "columnName": "application_url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceUrl",
+            "columnName": "source_url",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_jobs_published_at",
+            "unique": false,
+            "columnNames": [
+              "published_at"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_jobs_published_at` ON `${TABLE_NAME}` (`published_at`)"
+          }
+        ]
+      },
+      {
+        "tableName": "applications",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`job_id` TEXT NOT NULL, `job_title` TEXT NOT NULL, `company_name` TEXT NOT NULL, `company_logo_url` TEXT, `application_url` TEXT NOT NULL, `status` TEXT NOT NULL, `notes` TEXT NOT NULL, `interview_at` INTEGER, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, PRIMARY KEY(`job_id`))",
+        "fields": [
+          {
+            "fieldPath": "jobId",
+            "columnName": "job_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "jobTitle",
+            "columnName": "job_title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "companyName",
+            "columnName": "company_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "companyLogoUrl",
+            "columnName": "company_logo_url",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "applicationUrl",
+            "columnName": "application_url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "interviewAt",
+            "columnName": "interview_at",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "job_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_applications_status",
+            "unique": false,
+            "columnNames": [
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_applications_status` ON `${TABLE_NAME}` (`status`)"
+          },
+          {
+            "name": "index_applications_updated_at",
+            "unique": false,
+            "columnNames": [
+              "updated_at"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_applications_updated_at` ON `${TABLE_NAME}` (`updated_at`)"
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '474f97a9f4bbaeaf40b192bcc203ef09')"
+    ]
+  }
+}
