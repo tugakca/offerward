@@ -14,6 +14,7 @@ I built Offerward for my own job search. Job boards are good at listing jobs and
 - **Architecture:** MVI-style unidirectional data flow (single immutable `UiState` per screen, actions in, pure reducer), offline-first data layer with Room as the single source of truth
 - **DI:** Hilt
 - **Build:** multi-module (`core:*`, `feature:*`), convention plugins in `build-logic`, version catalog
+- **Languages:** English, Turkish, Italian, French, Russian, Chinese (Simplified), Japanese, Arabic (right-to-left), with the Android 13+ per-app language setting
 - **Quality:** unit tests, Spotless/ktlint, Android Lint, GitHub Actions CI
 
 ## Modules
@@ -38,6 +39,7 @@ An AI module lands with the job summary feature.
 - [x] Discover: list, search, filters, pull-to-refresh, job detail
 - [x] Applications: pipeline, notes, interview date
 - [x] Second job board (Jobicy): parallel fetch, cross-board de-duplication, partial failure
+- [x] UI in 8 languages, right-to-left layout, per-app language setting
 - [ ] Release setup, Crashlytics, closed testing on Google Play
 - [ ] On-device job summary with ML Kit GenAI (Gemini Nano), hidden on unsupported devices
 - [ ] Interview reminders
@@ -74,6 +76,8 @@ Requires JDK 17 and the Android SDK (compileSdk 37).
 **One board down is not an outage.** If one board fails, its previously cached jobs are kept, the others update, and a snackbar names the board that could not be reached. Only when every board fails does the refresh count as failed.
 
 **Schema changes are migrated, not destructive.** Adding the source column moved the database to version 2 with a Room auto-migration; jobs cached before it default to Himalayas. A migration test opens a real version 1 database with an application in it and checks that nothing is lost.
+
+**The app is translated, the job data is not.** Every string the app itself shows is translated, including plurals with each language's own forms (Russian has four, Arabic six) and the salary period. Job titles, descriptions and country names come from the boards in English and are shown as they are. The app declares its languages with `generateLocaleConfig`, so Android 13+ offers a per-app language in Settings. The translations were not reviewed by native speakers yet.
 
 **Why Himalayas and not Remotive.** The plan started with Remotive's public API. When building the client, it turned out to return only a handful of jobs and to ignore its category and search filters. Himalayas offers thousands of remote jobs, a country filter and explicit permission to show its jobs in your own app.
 
