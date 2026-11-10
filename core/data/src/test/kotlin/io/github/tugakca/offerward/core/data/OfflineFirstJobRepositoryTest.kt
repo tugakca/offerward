@@ -59,7 +59,7 @@ class OfflineFirstJobRepositoryTest {
         repository = OfflineFirstJobRepository(
             jobDao = db.jobDao(),
             network = network,
-            settings = SyncSettings(dataStore, defaultCountryCode = "TR"),
+            settings = SyncSettings(dataStore),
             clock = clock,
         )
     }
@@ -71,13 +71,13 @@ class OfflineFirstJobRepositoryTest {
     }
 
     @Test
-    fun firstRefreshFetchesForTheDefaultCountryAndCachesJobs() = runTest {
+    fun firstRefreshFetchesNewestDeveloperJobsFromEveryCountryAndCachesThem() = runTest {
         network.jobs = listOf(networkJob("1", "Senior Android Engineer"), networkJob("2", "Android Developer"))
 
         val result = repository.refresh(userInitiated = false)
 
         assertThat(result).isEqualTo(RefreshResult.Updated(jobCount = 2))
-        assertThat(network.calls.single().countryCode).isEqualTo("TR")
+        assertThat(network.calls.single()).isEqualTo(FakeJobNetworkDataSource.Call("developer", null, 5))
         assertThat(repository.observeJobs(JobFilter()).first().map { it.id }).containsExactly("1", "2")
     }
 
@@ -132,26 +132,6 @@ class OfflineFirstJobRepositoryTest {
         repository.refresh(userInitiated = false)
 
         assertThat(repository.observeJobs(JobFilter()).first().map { it.id }).containsExactly("open")
-    }
-
-    @Test
-    fun changingTheCountryAllowsAnImmediateRefreshForThatCountry() = runTest {
-        repository.refresh(userInitiated = false)
-
-        repository.setCountryCode("DE")
-        val result = repository.refresh(userInitiated = false)
-
-        assertThat(result).isInstanceOf(RefreshResult.Updated::class.java)
-        assertThat(network.calls.last().countryCode).isEqualTo("DE")
-    }
-
-    @Test
-    fun anEmptyCountryMeansAnyCountry() = runTest {
-        repository.setCountryCode("")
-
-        repository.refresh(userInitiated = false)
-
-        assertThat(network.calls.single().countryCode).isNull()
     }
 
     @Test

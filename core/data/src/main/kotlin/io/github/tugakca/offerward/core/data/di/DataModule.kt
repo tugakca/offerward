@@ -15,10 +15,7 @@ import io.github.tugakca.offerward.core.data.repository.ApplicationRepository
 import io.github.tugakca.offerward.core.data.repository.JobRepository
 import io.github.tugakca.offerward.core.data.repository.LocalApplicationRepository
 import io.github.tugakca.offerward.core.data.repository.OfflineFirstJobRepository
-import io.github.tugakca.offerward.core.data.settings.SyncSettings
 import java.time.Clock
-import java.util.Locale
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -40,9 +37,5 @@ internal abstract class DataModule {
         @Singleton
         fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
             PreferenceDataStoreFactory.create { context.preferencesDataStoreFile("settings") }
-
-        @Provides
-        @Named(SyncSettings.DEFAULT_COUNTRY)
-        fun provideDefaultCountryCode(): String = Locale.getDefault().country
     }
 }
