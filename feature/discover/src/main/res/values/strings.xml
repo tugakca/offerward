@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="feature_discover_placeholder">Remote jobs will show up here.</string>
+  <string name="feature_discover_search_hint">Search title or company</string>
+  <string name="feature_discover_clear_search">Clear search</string>
+  <string name="feature_discover_filter_android">Android</string>
+  <string name="feature_discover_filter_senior">Senior</string>
+  <string name="feature_discover_worldwide">Worldwide</string>
+  <plurals name="feature_discover_open_in_countries">
+    <item quantity="one">Open in %d country</item>
+    <item quantity="other">Open in %d countries</item>
+  </plurals>
+  <string name="feature_discover_no_matches">No jobs match these filters.</string>
+  <string name="feature_discover_clear_filters">Clear filters</string>
+  <string name="feature_discover_empty">No jobs yet.</string>
+  <string name="feature_discover_error">Couldn\'t load jobs. Check your connection and try again.</string>
+  <string name="feature_discover_retry">Try again</string>
+  <string name="feature_discover_refresh_failed">Couldn\'t refresh. Showing saved jobs.</string>
+  <string name="feature_discover_up_to_date">Jobs are up to date. Next refresh after %1$s.</string>
+  <string name="feature_discover_attribution">Jobs via Himalayas</string>
+  <string name="feature_discover_back">Back</string>
+  <string name="feature_discover_apply">Apply</string>
+  <string name="feature_discover_track">Track application</string>
+  <string name="feature_discover_tracked">Tracked</string>
+  <string name="feature_discover_view_on_source">View on Himalayas</string>
+  <string name="feature_discover_open_to">Open to</string>
+  <string name="feature_discover_show_all">Show all</string>
+  <string name="feature_discover_posted">Posted %1$s</string>
+  <string name="feature_discover_job_not_found">This job is no longer listed.</string>
 </resources>
