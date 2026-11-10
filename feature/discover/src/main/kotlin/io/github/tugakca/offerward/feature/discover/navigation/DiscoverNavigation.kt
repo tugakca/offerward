@@ -12,11 +12,15 @@ data object DiscoverKey : NavKey
 @Serializable
 data class JobDetailKey(val jobId: String) : NavKey
 
-fun EntryProviderScope<NavKey>.discoverEntries(onJobClick: (jobId: String) -> Unit, onBack: () -> Unit) {
+fun EntryProviderScope<NavKey>.discoverEntries(
+    onJobClick: (jobId: String) -> Unit,
+    onOpenApplication: (jobId: String) -> Unit,
+    onBack: () -> Unit,
+) {
     entry<DiscoverKey> {
         DiscoverRoute(onJobClick = onJobClick)
     }
     entry<JobDetailKey> { key ->
-        JobDetailRoute(jobId = key.jobId, onBack = onBack)
+        JobDetailRoute(jobId = key.jobId, onBack = onBack, onOpenApplication = onOpenApplication)
     }
 }

@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "io.github.tugakca.offerward.feature.applications"
 }
+
+dependencies {
+    implementation(projects.core.data)
+}

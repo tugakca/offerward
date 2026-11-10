@@ -20,7 +20,7 @@
   <string name="feature_discover_back">Back</string>
   <string name="feature_discover_apply">Apply</string>
   <string name="feature_discover_track">Track application</string>
-  <string name="feature_discover_tracked">Tracked</string>
+  <string name="feature_discover_tracked">View application</string>
   <string name="feature_discover_view_on_source">View on Himalayas</string>
   <string name="feature_discover_open_to">Open to</string>
   <string name="feature_discover_show_all">Show all</string>
