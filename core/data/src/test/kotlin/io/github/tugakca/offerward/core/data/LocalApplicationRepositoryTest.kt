@@ -7,6 +7,7 @@ import io.github.tugakca.offerward.core.data.repository.LocalApplicationReposito
 import io.github.tugakca.offerward.core.database.OfferwardDatabase
 import io.github.tugakca.offerward.core.model.ApplicationStatus
 import io.github.tugakca.offerward.core.model.Job
+import io.github.tugakca.offerward.core.model.JobApplication
 import io.github.tugakca.offerward.core.model.JobSource
 import java.time.Clock
 import java.time.Instant
@@ -70,6 +71,42 @@ class LocalApplicationRepositoryTest {
         repository.untrack("1")
 
         assertThat(repository.observeApplications().first()).isEmpty()
+    }
+
+    @Test
+    fun restoreBringsBackAnUntrackedApplicationExactlyAsItWas() = runTest {
+        repository.track(job("1"))
+        repository.updateStatus("1", ApplicationStatus.INTERVIEW)
+        repository.updateNotes("1", "Second round on Friday")
+        repository.setInterviewAt("1", Instant.parse("2026-11-14T13:00:00Z"))
+        val before = repository.observeApplication("1").first()!!
+
+        repository.untrack("1")
+        assertThat(repository.observeApplication("1").first()).isNull()
+        repository.restore(before)
+
+        assertThat(repository.observeApplication("1").first()).isEqualTo(before)
+    }
+
+    @Test
+    fun restoreKeepsTheOriginalDatesEvenThoughTheClockMovedOn() = runTest {
+        val old = Instant.parse("2026-10-01T08:00:00Z")
+        val snapshot = JobApplication(
+            jobId = "1",
+            jobTitle = "Senior Android Engineer",
+            companyName = "Acme",
+            companyLogoUrl = null,
+            applicationUrl = "https://example.com/1/apply",
+            status = ApplicationStatus.OFFER,
+            notes = "Offer in hand",
+            interviewAt = null,
+            createdAt = old,
+            updatedAt = old,
+        )
+
+        repository.restore(snapshot)
+
+        assertThat(repository.observeApplications().first()).containsExactly(snapshot)
     }
 
     private fun job(id: String) = Job(

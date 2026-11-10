@@ -1,8 +1,12 @@
 package io.github.tugakca.offerward.feature.discover.list
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -15,11 +19,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -28,14 +33,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -44,6 +48,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.github.tugakca.offerward.core.designsystem.component.SelectableChip
+import io.github.tugakca.offerward.core.designsystem.component.StateMessage
+import io.github.tugakca.offerward.core.designsystem.motion.Motion
+import io.github.tugakca.offerward.core.designsystem.motion.animateListItem
 import io.github.tugakca.offerward.core.designsystem.theme.OfferwardTheme
 import io.github.tugakca.offerward.feature.discover.R
 import java.time.Instant
@@ -116,28 +124,41 @@ internal fun DiscoverScreen(
                 onRefresh = { onAction(DiscoverAction.Refresh) },
                 modifier = Modifier.fillMaxSize(),
             ) {
-                when (state.content) {
-                    DiscoverContent.Loading -> CenteredBox { CircularProgressIndicator() }
+                // Keyed by the kind of content only, so edits to the job list itself keep using animateItem.
+                AnimatedContent(
+                    targetState = state.content,
+                    transitionSpec = {
+                        fadeIn(tween(Motion.ContentFadeInMillis, Motion.ContentFadeInDelayMillis)) togetherWith
+                            fadeOut(tween(Motion.ContentFadeOutMillis))
+                    },
+                    label = "discover content",
+                ) { content ->
+                    when (content) {
+                        DiscoverContent.Loading -> JobListSkeleton()
 
-                    DiscoverContent.Jobs -> JobList(state = state, now = now, onJobClick = onJobClick)
+                        DiscoverContent.Jobs -> JobList(state = state, now = now, onJobClick = onJobClick)
 
-                    DiscoverContent.NoMatches -> Message(
-                        text = stringResource(R.string.feature_discover_no_matches),
-                        actionLabel = stringResource(R.string.feature_discover_clear_filters),
-                        onAction = { onAction(DiscoverAction.ClearFilters) },
-                    )
+                        DiscoverContent.NoMatches -> Message(
+                            icon = Icons.Outlined.Search,
+                            text = stringResource(R.string.feature_discover_no_matches),
+                            actionLabel = stringResource(R.string.feature_discover_clear_filters),
+                            onAction = { onAction(DiscoverAction.ClearFilters) },
+                        )
 
-                    DiscoverContent.Empty -> Message(
-                        text = stringResource(R.string.feature_discover_empty),
-                        actionLabel = stringResource(R.string.feature_discover_retry),
-                        onAction = { onAction(DiscoverAction.Refresh) },
-                    )
+                        DiscoverContent.Empty -> Message(
+                            icon = Icons.AutoMirrored.Outlined.List,
+                            text = stringResource(R.string.feature_discover_empty),
+                            actionLabel = stringResource(R.string.feature_discover_retry),
+                            onAction = { onAction(DiscoverAction.Refresh) },
+                        )
 
-                    DiscoverContent.Error -> Message(
-                        text = stringResource(R.string.feature_discover_error),
-                        actionLabel = stringResource(R.string.feature_discover_retry),
-                        onAction = { onAction(DiscoverAction.Refresh) },
-                    )
+                        DiscoverContent.Error -> Message(
+                            icon = Icons.Outlined.Warning,
+                            text = stringResource(R.string.feature_discover_error),
+                            actionLabel = stringResource(R.string.feature_discover_retry),
+                            onAction = { onAction(DiscoverAction.Refresh) },
+                        )
+                    }
                 }
             }
         }
@@ -183,20 +204,20 @@ private fun FilterChips(state: DiscoverUiState, onAction: (DiscoverAction) -> Un
             .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        FilterChip(
+        SelectableChip(
             selected = state.filter.androidOnly,
             onClick = { onAction(DiscoverAction.ToggleAndroidOnly) },
-            label = { Text(stringResource(R.string.feature_discover_filter_android)) },
+            label = stringResource(R.string.feature_discover_filter_android),
         )
-        FilterChip(
+        SelectableChip(
             selected = state.filter.seniorOnly,
             onClick = { onAction(DiscoverAction.ToggleSeniorOnly) },
-            label = { Text(stringResource(R.string.feature_discover_filter_senior)) },
+            label = stringResource(R.string.feature_discover_filter_senior),
         )
-        FilterChip(
+        SelectableChip(
             selected = state.filter.worldwideOnly,
             onClick = { onAction(DiscoverAction.ToggleWorldwideOnly) },
-            label = { Text(stringResource(R.string.feature_discover_worldwide)) },
+            label = stringResource(R.string.feature_discover_worldwide),
         )
     }
 }
@@ -211,7 +232,13 @@ private fun JobList(state: DiscoverUiState, now: Instant, onJobClick: (String) -
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(state.jobs, key = { it.id }) { job ->
-            JobCard(job = job, now = now, onClick = { onJobClick(job.id) }, modifier = Modifier.animateItem())
+            JobCard(
+                job = job,
+                now = now,
+                onClick = { onJobClick(job.id) },
+                modifier = animateListItem(),
+                trackedStatus = state.trackedStatuses[job.id],
+            )
         }
         item(key = "attribution") {
             Text(
@@ -228,27 +255,19 @@ private fun JobList(state: DiscoverUiState, now: Instant, onJobClick: (String) -
 }
 
 @Composable
-private fun Message(text: String, actionLabel: String, onAction: () -> Unit) {
+private fun Message(icon: ImageVector, text: String, actionLabel: String, onAction: () -> Unit) {
     // Scrollable so pull-to-refresh also works on the empty and error states.
-    LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(32.dp)) {
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
         item {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 96.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                Text(text = text, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
-                TextButton(onClick = onAction) { Text(actionLabel) }
-            }
+            StateMessage(
+                icon = icon,
+                text = text,
+                actionLabel = actionLabel,
+                onAction = onAction,
+                modifier = Modifier.fillParentMaxSize(),
+            )
         }
     }
-}
-
-@Composable
-private fun CenteredBox(content: @Composable () -> Unit) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { content() }
 }
 
 @Preview(showBackground = true)

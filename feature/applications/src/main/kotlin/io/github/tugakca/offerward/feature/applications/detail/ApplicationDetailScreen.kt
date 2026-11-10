@@ -1,5 +1,12 @@
 package io.github.tugakca.offerward.feature.applications.detail
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,16 +16,17 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -36,16 +44,25 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.tugakca.offerward.core.designsystem.component.CompanyLogo
+import io.github.tugakca.offerward.core.designsystem.component.SelectableChip
+import io.github.tugakca.offerward.core.designsystem.motion.Motion
+import io.github.tugakca.offerward.core.designsystem.motion.sharedElementOrNone
 import io.github.tugakca.offerward.core.designsystem.theme.OfferwardTheme
 import io.github.tugakca.offerward.core.model.ApplicationStatus
 import io.github.tugakca.offerward.feature.applications.R
+import io.github.tugakca.offerward.feature.applications.list.applicationLogoKey
 import io.github.tugakca.offerward.feature.applications.list.previewApplication
 import io.github.tugakca.offerward.feature.applications.ui.colors
 import io.github.tugakca.offerward.feature.applications.ui.formatDateTime
@@ -128,17 +145,24 @@ private fun ApplicationDetailContent(
     var showPicker by rememberSaveable { mutableStateOf(false) }
     var confirmStop by rememberSaveable { mutableStateOf(false) }
     val uriHandler = LocalUriHandler.current
+    val haptics = LocalHapticFeedback.current
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .imePadding()
+            .navigationBarsPadding()
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
-            CompanyLogo(logoUrl = application.companyLogoUrl, companyName = application.companyName, size = 56.dp)
+            CompanyLogo(
+                logoUrl = application.companyLogoUrl,
+                companyName = application.companyName,
+                modifier = Modifier.sharedElementOrNone(applicationLogoKey(application.jobId)),
+                size = 56.dp,
+            )
             Column {
                 Text(application.jobTitle, style = MaterialTheme.typography.titleLarge)
                 Text(
@@ -161,14 +185,17 @@ private fun ApplicationDetailContent(
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 ApplicationStatus.entries.forEach { status ->
                     val colors = status.colors()
-                    FilterChip(
+                    SelectableChip(
                         selected = application.status == status,
-                        onClick = { onAction(ApplicationDetailAction.ChangeStatus(status)) },
-                        label = { Text(stringResource(status.label)) },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = colors.container,
-                            selectedLabelColor = colors.content,
-                        ),
+                        onClick = {
+                            if (application.status != status) {
+                                haptics.performHapticFeedback(HapticFeedbackType.ContextClick)
+                                onAction(ApplicationDetailAction.ChangeStatus(status))
+                            }
+                        },
+                        label = stringResource(status.label),
+                        selectedContainerColor = colors.container,
+                        selectedContentColor = colors.content,
                     )
                 }
             }
@@ -176,22 +203,39 @@ private fun ApplicationDetailContent(
 
         Section(title = stringResource(R.string.feature_applications_interview)) {
             val interviewAt = application.interviewAt
-            if (interviewAt == null) {
-                OutlinedButton(onClick = { showPicker = true }) {
-                    Text(stringResource(R.string.feature_applications_set_interview))
-                }
-            } else {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = interviewAt.formatDateTime(),
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.weight(1f),
+            // Both rows live in one animated box, so choosing or clearing a date resizes the
+            // section smoothly instead of moving everything below it in one frame.
+            AnimatedContent(
+                targetState = interviewAt != null,
+                transitionSpec = {
+                    (
+                        fadeIn(tween(Motion.ContentFadeInMillis, Motion.ContentFadeInDelayMillis)) togetherWith
+                            fadeOut(tween(Motion.ContentFadeOutMillis))
+                        ).using(
+                        SizeTransform(clip = false) { _, _ ->
+                            Motion.spatialSpring(IntSize.VisibilityThreshold)
+                        },
                     )
-                    TextButton(onClick = { showPicker = true }) {
-                        Text(stringResource(R.string.feature_applications_change))
+                },
+                label = "interview row",
+            ) { hasDate ->
+                if (!hasDate || interviewAt == null) {
+                    OutlinedButton(onClick = { showPicker = true }) {
+                        Text(stringResource(R.string.feature_applications_set_interview))
                     }
-                    TextButton(onClick = { onAction(ApplicationDetailAction.SetInterview(null)) }) {
-                        Text(stringResource(R.string.feature_applications_clear))
+                } else {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = interviewAt.formatDateTime(),
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.weight(1f),
+                        )
+                        TextButton(onClick = { showPicker = true }) {
+                            Text(stringResource(R.string.feature_applications_change))
+                        }
+                        TextButton(onClick = { onAction(ApplicationDetailAction.SetInterview(null)) }) {
+                            Text(stringResource(R.string.feature_applications_clear))
+                        }
                     }
                 }
             }
@@ -207,16 +251,17 @@ private fun ApplicationDetailContent(
             )
         }
 
-        Column(horizontalAlignment = Alignment.Start) {
-            TextButton(onClick = { uriHandler.openUri(application.applicationUrl) }) {
-                Text(stringResource(R.string.feature_applications_open_posting))
-            }
-            TextButton(onClick = { confirmStop = true }) {
-                Text(
-                    text = stringResource(R.string.feature_applications_stop_tracking),
-                    color = MaterialTheme.colorScheme.error,
-                )
-            }
+        TextButton(onClick = { uriHandler.openUri(application.applicationUrl) }) {
+            Text(stringResource(R.string.feature_applications_open_posting))
+        }
+
+        // The destructive action is set apart from the harmless one above it.
+        HorizontalDivider(modifier = Modifier.padding(top = 12.dp))
+        TextButton(
+            onClick = { confirmStop = true },
+            colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
+        ) {
+            Text(text = stringResource(R.string.feature_applications_stop_tracking))
         }
     }
 
@@ -263,7 +308,12 @@ private fun ApplicationDetailContent(
 @Composable
 private fun Section(title: String, content: @Composable () -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text(title, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.semantics { heading() },
+        )
         content()
     }
 }

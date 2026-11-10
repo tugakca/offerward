@@ -23,4 +23,10 @@ interface ApplicationRepository {
     suspend fun setInterviewAt(jobId: String, interviewAt: Instant?)
 
     suspend fun untrack(jobId: String)
+
+    /**
+     * Puts [application] back exactly as it was, including stage, notes and dates; used to undo
+     * [untrack]. Replaces whatever is stored for the same job.
+     */
+    suspend fun restore(application: JobApplication)
 }

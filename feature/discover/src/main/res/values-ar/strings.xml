@@ -34,4 +34,10 @@
   <string name="feature_discover_salary_per_month">%1$s شهريًا</string>
   <string name="feature_discover_salary_per_week">%1$s أسبوعيًا</string>
   <string name="feature_discover_salary_per_hour">%1$s في الساعة</string>
+  <string name="feature_discover_status_saved">محفوظ</string>
+  <string name="feature_discover_status_applied">تم التقديم</string>
+  <string name="feature_discover_status_interview">مقابلة</string>
+  <string name="feature_discover_status_offer">عرض</string>
+  <string name="feature_discover_status_rejected">مرفوض</string>
+  <string name="feature_discover_loading">جارٍ تحميل الوظائف</string>
 </resources>

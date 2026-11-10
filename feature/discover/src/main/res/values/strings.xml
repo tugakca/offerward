@@ -32,4 +32,10 @@
   <string name="feature_discover_salary_per_month">%1$s / month</string>
   <string name="feature_discover_salary_per_week">%1$s / week</string>
   <string name="feature_discover_salary_per_hour">%1$s / hour</string>
+  <string name="feature_discover_status_saved">Saved</string>
+  <string name="feature_discover_status_applied">Applied</string>
+  <string name="feature_discover_status_interview">Interview</string>
+  <string name="feature_discover_status_offer">Offer</string>
+  <string name="feature_discover_status_rejected">Rejected</string>
+  <string name="feature_discover_loading">Loading jobs</string>
 </resources>

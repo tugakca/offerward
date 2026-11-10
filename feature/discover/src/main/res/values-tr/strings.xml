@@ -30,4 +30,10 @@
   <string name="feature_discover_salary_per_month">%1$s / ay</string>
   <string name="feature_discover_salary_per_week">%1$s / hafta</string>
   <string name="feature_discover_salary_per_hour">%1$s / saat</string>
+  <string name="feature_discover_status_saved">Kaydedildi</string>
+  <string name="feature_discover_status_applied">Başvuruldu</string>
+  <string name="feature_discover_status_interview">Mülakat</string>
+  <string name="feature_discover_status_offer">Teklif</string>
+  <string name="feature_discover_status_rejected">Reddedildi</string>
+  <string name="feature_discover_loading">İlanlar yükleniyor</string>
 </resources>

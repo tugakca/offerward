@@ -1,5 +1,6 @@
 package io.github.tugakca.offerward.feature.discover.list
 
+import io.github.tugakca.offerward.core.model.ApplicationStatus
 import io.github.tugakca.offerward.core.model.Job
 import io.github.tugakca.offerward.core.model.JobFilter
 import io.github.tugakca.offerward.core.model.JobSource
@@ -10,6 +11,8 @@ import java.time.Instant
 data class DiscoverUiState(
     val filter: JobFilter = JobFilter(),
     val jobs: List<Job> = emptyList(),
+    /** The stage of every job the user tracks, by job id, so cards can show it. */
+    val trackedStatuses: Map<String, ApplicationStatus> = emptyMap(),
     /** False until the cache has answered once, so an empty list is never mistaken for "no jobs". */
     val hasLoadedJobs: Boolean = false,
     val isRefreshing: Boolean = false,
@@ -52,6 +55,7 @@ sealed interface DiscoverEffect {
 internal sealed interface DiscoverMutation {
     data class FilterChanged(val filter: JobFilter) : DiscoverMutation
     data class JobsLoaded(val jobs: List<Job>) : DiscoverMutation
+    data class TrackedStatusesLoaded(val statuses: Map<String, ApplicationStatus>) : DiscoverMutation
     data object RefreshStarted : DiscoverMutation
     data class RefreshFinished(val result: RefreshResult) : DiscoverMutation
 }
@@ -61,6 +65,8 @@ internal fun reduce(state: DiscoverUiState, mutation: DiscoverMutation): Discove
     is DiscoverMutation.FilterChanged -> state.copy(filter = mutation.filter)
 
     is DiscoverMutation.JobsLoaded -> state.copy(jobs = mutation.jobs, hasLoadedJobs = true)
+
+    is DiscoverMutation.TrackedStatusesLoaded -> state.copy(trackedStatuses = mutation.statuses)
 
     DiscoverMutation.RefreshStarted -> state.copy(isRefreshing = true)
 

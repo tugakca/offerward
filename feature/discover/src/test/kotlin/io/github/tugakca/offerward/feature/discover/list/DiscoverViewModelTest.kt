@@ -3,6 +3,7 @@ package io.github.tugakca.offerward.feature.discover.list
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import io.github.tugakca.offerward.core.data.repository.JobRepository
+import io.github.tugakca.offerward.core.model.ApplicationStatus
 import io.github.tugakca.offerward.core.model.Job
 import io.github.tugakca.offerward.core.model.JobFilter
 import io.github.tugakca.offerward.core.model.JobSource
@@ -26,6 +27,7 @@ import org.junit.Test
 class DiscoverViewModelTest {
 
     private val repository = FakeJobRepository()
+    private val applications = FakeApplicationRepository()
 
     @Before
     fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
@@ -37,7 +39,7 @@ class DiscoverViewModelTest {
     fun opensWithAnAutomaticRefreshAndShowsCachedJobs() = runTest {
         repository.jobs.value = listOf(job("1", "Android Developer"))
 
-        val viewModel = DiscoverViewModel(repository)
+        val viewModel = DiscoverViewModel(repository, applications)
 
         assertThat(repository.refreshCalls).containsExactly(false)
         assertThat(viewModel.uiState.value.jobs.map { it.id }).containsExactly("1")
@@ -47,7 +49,7 @@ class DiscoverViewModelTest {
     @Test
     fun filterActionsReachTheRepository() = runTest {
         repository.jobs.value = listOf(job("1", "Android Developer"), job("2", "Backend Engineer"))
-        val viewModel = DiscoverViewModel(repository)
+        val viewModel = DiscoverViewModel(repository, applications)
 
         viewModel.onAction(DiscoverAction.ToggleAndroidOnly)
         viewModel.onAction(DiscoverAction.QueryChanged("dev"))
@@ -61,7 +63,7 @@ class DiscoverViewModelTest {
 
     @Test
     fun pullToRefreshIsUserInitiated() = runTest {
-        val viewModel = DiscoverViewModel(repository)
+        val viewModel = DiscoverViewModel(repository, applications)
 
         viewModel.onAction(DiscoverAction.Refresh)
 
@@ -70,7 +72,7 @@ class DiscoverViewModelTest {
 
     @Test
     fun aSkippedPullToRefreshTellsTheUserWhenTheNextOneIsAllowed() = runTest {
-        val viewModel = DiscoverViewModel(repository)
+        val viewModel = DiscoverViewModel(repository, applications)
         val next = Instant.parse("2026-11-10T13:00:00Z")
         repository.nextResult = RefreshResult.Skipped(next)
 
@@ -83,7 +85,7 @@ class DiscoverViewModelTest {
     @Test
     fun aFailedRefreshOverCachedJobsShowsASnackbar() = runTest {
         repository.jobs.value = listOf(job("1", "Android Developer"))
-        val viewModel = DiscoverViewModel(repository)
+        val viewModel = DiscoverViewModel(repository, applications)
         repository.nextResult = RefreshResult.Failed(IOException())
 
         viewModel.effects.test {
@@ -94,7 +96,7 @@ class DiscoverViewModelTest {
 
     @Test
     fun aPartlyFailedRefreshNamesTheBoardsThatWereDown() = runTest {
-        val viewModel = DiscoverViewModel(repository)
+        val viewModel = DiscoverViewModel(repository, applications)
         repository.nextResult = RefreshResult.Updated(jobCount = 3, unavailableSources = setOf(JobSource.JOBICY))
 
         viewModel.effects.test {
@@ -107,10 +109,26 @@ class DiscoverViewModelTest {
     fun aFailedFirstLoadShowsTheErrorStateInsteadOfASnackbar() = runTest {
         repository.nextResult = RefreshResult.Failed(IOException())
 
-        val viewModel = DiscoverViewModel(repository)
+        val viewModel = DiscoverViewModel(repository, applications)
 
         assertThat(viewModel.uiState.value.content).isEqualTo(DiscoverContent.Error)
         viewModel.effects.test { expectNoEvents() }
+    }
+
+    @Test
+    fun trackedJobsCarryTheirStageIntoTheState() = runTest {
+        val viewModel = DiscoverViewModel(repository, applications)
+        assertThat(viewModel.uiState.value.trackedStatuses).isEmpty()
+
+        applications.applications.value = listOf(
+            application("1", ApplicationStatus.INTERVIEW),
+            application("2", ApplicationStatus.SAVED),
+        )
+        assertThat(viewModel.uiState.value.trackedStatuses)
+            .containsExactly("1", ApplicationStatus.INTERVIEW, "2", ApplicationStatus.SAVED)
+
+        applications.applications.value = applications.applications.value.filter { it.jobId != "1" }
+        assertThat(viewModel.uiState.value.trackedStatuses).containsExactly("2", ApplicationStatus.SAVED)
     }
 
     private class FakeJobRepository : JobRepository {

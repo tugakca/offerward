@@ -6,6 +6,7 @@ import io.github.tugakca.offerward.core.model.ApplicationStatus.INTERVIEW
 import io.github.tugakca.offerward.core.model.ApplicationStatus.OFFER
 import io.github.tugakca.offerward.core.model.ApplicationStatus.REJECTED
 import io.github.tugakca.offerward.core.model.ApplicationStatus.SAVED
+import io.github.tugakca.offerward.feature.applications.list.ApplicationsUiState
 import io.github.tugakca.offerward.feature.applications.list.sectionsOf
 import org.junit.Test
 
@@ -49,5 +50,16 @@ class ApplicationSectionsTest {
         )
 
         assertThat(sections.single().applications.map { it.jobId }).containsExactly("new", "old").inOrder()
+    }
+
+    @Test
+    fun countsPerStageFeedTheSummaryAndMissingStagesAreZero() {
+        val loaded = ApplicationsUiState.Loaded(
+            sectionsOf(listOf(application("a", INTERVIEW), application("b", SAVED), application("c", SAVED))),
+        )
+
+        assertThat(loaded.count(INTERVIEW)).isEqualTo(1)
+        assertThat(loaded.count(SAVED)).isEqualTo(2)
+        assertThat(loaded.count(OFFER)).isEqualTo(0)
     }
 }

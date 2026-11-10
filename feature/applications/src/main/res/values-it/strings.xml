@@ -22,8 +22,36 @@
   <string name="feature_applications_stop_tracking_title">Smettere di seguire questo annuncio?</string>
   <string name="feature_applications_stop_tracking_body">Fase, note e data del colloquio verranno eliminate.</string>
   <string name="feature_applications_cancel">Annulla</string>
+  <string name="feature_applications_stopped_tracking">Hai smesso di seguire %1$s</string>
+  <string name="feature_applications_undo">Annulla</string>
   <string name="feature_applications_ok">OK</string>
   <string name="feature_applications_next">Avanti</string>
   <string name="feature_applications_not_found">Questa candidatura non esiste più.</string>
   <string name="feature_applications_tracked_since">Seguita dal %1$s</string>
+  <string name="feature_applications_title">Candidature</string>
+  <plurals name="feature_applications_summary_interview">
+    <item quantity="one">%d colloquio</item>
+    <item quantity="many">%d colloqui</item>
+    <item quantity="other">%d colloqui</item>
+  </plurals>
+  <plurals name="feature_applications_summary_applied">
+    <item quantity="one">%d inviata</item>
+    <item quantity="many">%d inviate</item>
+    <item quantity="other">%d inviate</item>
+  </plurals>
+  <plurals name="feature_applications_summary_saved">
+    <item quantity="one">%d salvata</item>
+    <item quantity="many">%d salvate</item>
+    <item quantity="other">%d salvate</item>
+  </plurals>
+  <plurals name="feature_applications_summary_offer">
+    <item quantity="one">%d offerta</item>
+    <item quantity="many">%d offerte</item>
+    <item quantity="other">%d offerte</item>
+  </plurals>
+  <plurals name="feature_applications_summary_closed">
+    <item quantity="one">%d chiusa</item>
+    <item quantity="many">%d chiuse</item>
+    <item quantity="other">%d chiuse</item>
+  </plurals>
 </resources>

@@ -35,6 +35,9 @@ internal class FakeApplicationRepository(initial: List<JobApplication> = emptyLi
 
     override suspend fun untrack(jobId: String) = applications.update { list -> list.filterNot { it.jobId == jobId } }
 
+    override suspend fun restore(application: JobApplication) =
+        applications.update { list -> list.filterNot { it.jobId == application.jobId } + application }
+
     private fun edit(jobId: String, transform: (JobApplication) -> JobApplication) =
         applications.update { list -> list.map { if (it.jobId == jobId) transform(it) else it } }
 }

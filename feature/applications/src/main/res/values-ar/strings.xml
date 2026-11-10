@@ -22,8 +22,51 @@
   <string name="feature_applications_stop_tracking_title">هل تريد إيقاف تتبّع هذه الوظيفة؟</string>
   <string name="feature_applications_stop_tracking_body">ستُحذف مرحلتها وملاحظاتها وموعد مقابلتها.</string>
   <string name="feature_applications_cancel">إلغاء</string>
+  <string name="feature_applications_stopped_tracking">تم إيقاف تتبّع %1$s</string>
+  <string name="feature_applications_undo">تراجع</string>
   <string name="feature_applications_ok">حسنًا</string>
   <string name="feature_applications_next">التالي</string>
   <string name="feature_applications_not_found">هذا الطلب لم يعد موجودًا.</string>
   <string name="feature_applications_tracked_since">قيد التتبّع منذ %1$s</string>
+  <string name="feature_applications_title">الطلبات</string>
+  <plurals name="feature_applications_summary_interview">
+    <item quantity="zero">%d مقابلة</item>
+    <item quantity="one">%d مقابلة</item>
+    <item quantity="two">%d مقابلتان</item>
+    <item quantity="few">%d مقابلات</item>
+    <item quantity="many">%d مقابلة</item>
+    <item quantity="other">%d مقابلة</item>
+  </plurals>
+  <plurals name="feature_applications_summary_applied">
+    <item quantity="zero">%d تم التقديم</item>
+    <item quantity="one">%d تم التقديم</item>
+    <item quantity="two">%d تم التقديم</item>
+    <item quantity="few">%d تم التقديم</item>
+    <item quantity="many">%d تم التقديم</item>
+    <item quantity="other">%d تم التقديم</item>
+  </plurals>
+  <plurals name="feature_applications_summary_saved">
+    <item quantity="zero">%d محفوظ</item>
+    <item quantity="one">%d محفوظ</item>
+    <item quantity="two">%d محفوظ</item>
+    <item quantity="few">%d محفوظ</item>
+    <item quantity="many">%d محفوظ</item>
+    <item quantity="other">%d محفوظ</item>
+  </plurals>
+  <plurals name="feature_applications_summary_offer">
+    <item quantity="zero">%d عرض</item>
+    <item quantity="one">%d عرض</item>
+    <item quantity="two">%d عرض</item>
+    <item quantity="few">%d عرض</item>
+    <item quantity="many">%d عرض</item>
+    <item quantity="other">%d عرض</item>
+  </plurals>
+  <plurals name="feature_applications_summary_closed">
+    <item quantity="zero">%d مغلق</item>
+    <item quantity="one">%d مغلق</item>
+    <item quantity="two">%d مغلق</item>
+    <item quantity="few">%d مغلق</item>
+    <item quantity="many">%d مغلق</item>
+    <item quantity="other">%d مغلق</item>
+  </plurals>
 </resources>

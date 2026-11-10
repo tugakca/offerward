@@ -22,8 +22,41 @@
   <string name="feature_applications_stop_tracking_title">Перестать отслеживать вакансию?</string>
   <string name="feature_applications_stop_tracking_body">Этап, заметки и дата собеседования будут удалены.</string>
   <string name="feature_applications_cancel">Отмена</string>
+  <string name="feature_applications_stopped_tracking">Вы перестали отслеживать «%1$s»</string>
+  <string name="feature_applications_undo">Отменить</string>
   <string name="feature_applications_ok">ОК</string>
   <string name="feature_applications_next">Далее</string>
   <string name="feature_applications_not_found">Этот отклик больше не существует.</string>
   <string name="feature_applications_tracked_since">Отслеживается с %1$s</string>
+  <string name="feature_applications_title">Отклики</string>
+  <plurals name="feature_applications_summary_interview">
+    <item quantity="one">%d собеседование</item>
+    <item quantity="few">%d собеседования</item>
+    <item quantity="many">%d собеседований</item>
+    <item quantity="other">%d собеседования</item>
+  </plurals>
+  <plurals name="feature_applications_summary_applied">
+    <item quantity="one">%d отправлено</item>
+    <item quantity="few">%d отправлено</item>
+    <item quantity="many">%d отправлено</item>
+    <item quantity="other">%d отправлено</item>
+  </plurals>
+  <plurals name="feature_applications_summary_saved">
+    <item quantity="one">%d сохранено</item>
+    <item quantity="few">%d сохранено</item>
+    <item quantity="many">%d сохранено</item>
+    <item quantity="other">%d сохранено</item>
+  </plurals>
+  <plurals name="feature_applications_summary_offer">
+    <item quantity="one">%d оффер</item>
+    <item quantity="few">%d оффера</item>
+    <item quantity="many">%d офферов</item>
+    <item quantity="other">%d оффера</item>
+  </plurals>
+  <plurals name="feature_applications_summary_closed">
+    <item quantity="one">%d закрыто</item>
+    <item quantity="few">%d закрыто</item>
+    <item quantity="many">%d закрыто</item>
+    <item quantity="other">%d закрыто</item>
+  </plurals>
 </resources>

@@ -22,8 +22,31 @@
   <string name="feature_applications_stop_tracking_title">Bu ilanın takibi bırakılsın mı?</string>
   <string name="feature_applications_stop_tracking_body">Aşaması, notları ve mülakat tarihi silinecek.</string>
   <string name="feature_applications_cancel">İptal</string>
+  <string name="feature_applications_stopped_tracking">%1$s takibi bırakıldı</string>
+  <string name="feature_applications_undo">Geri al</string>
   <string name="feature_applications_ok">Tamam</string>
   <string name="feature_applications_next">İleri</string>
   <string name="feature_applications_not_found">Bu başvuru artık yok.</string>
   <string name="feature_applications_tracked_since">%1$s tarihinden beri takipte</string>
+  <string name="feature_applications_title">Başvurular</string>
+  <plurals name="feature_applications_summary_interview">
+    <item quantity="one">%d mülakat</item>
+    <item quantity="other">%d mülakat</item>
+  </plurals>
+  <plurals name="feature_applications_summary_applied">
+    <item quantity="one">%d başvuruldu</item>
+    <item quantity="other">%d başvuruldu</item>
+  </plurals>
+  <plurals name="feature_applications_summary_saved">
+    <item quantity="one">%d kayıtlı</item>
+    <item quantity="other">%d kayıtlı</item>
+  </plurals>
+  <plurals name="feature_applications_summary_offer">
+    <item quantity="one">%d teklif</item>
+    <item quantity="other">%d teklif</item>
+  </plurals>
+  <plurals name="feature_applications_summary_closed">
+    <item quantity="one">%d kapandı</item>
+    <item quantity="other">%d kapandı</item>
+  </plurals>
 </resources>

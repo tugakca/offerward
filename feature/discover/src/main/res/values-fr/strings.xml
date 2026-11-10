@@ -31,4 +31,10 @@
   <string name="feature_discover_salary_per_month">%1$s / mois</string>
   <string name="feature_discover_salary_per_week">%1$s / semaine</string>
   <string name="feature_discover_salary_per_hour">%1$s / heure</string>
+  <string name="feature_discover_status_saved">Enregistrée</string>
+  <string name="feature_discover_status_applied">Envoyée</string>
+  <string name="feature_discover_status_interview">Entretien</string>
+  <string name="feature_discover_status_offer">Offre</string>
+  <string name="feature_discover_status_rejected">Refusée</string>
+  <string name="feature_discover_loading">Chargement des offres</string>
 </resources>

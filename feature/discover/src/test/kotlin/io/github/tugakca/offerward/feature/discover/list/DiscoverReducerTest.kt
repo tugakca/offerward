@@ -1,6 +1,7 @@
 package io.github.tugakca.offerward.feature.discover.list
 
 import com.google.common.truth.Truth.assertThat
+import io.github.tugakca.offerward.core.model.ApplicationStatus
 import io.github.tugakca.offerward.core.model.JobFilter
 import io.github.tugakca.offerward.core.model.RefreshResult
 import java.io.IOException
@@ -65,6 +66,16 @@ class DiscoverReducerTest {
 
         assertThat(state.isRefreshing).isFalse()
         assertThat(state.lastRefreshFailed).isFalse()
+    }
+
+    @Test
+    fun trackedStatusesReplaceThePreviousOnes() {
+        val state = DiscoverUiState().reduceAll(
+            DiscoverMutation.TrackedStatusesLoaded(mapOf("1" to ApplicationStatus.APPLIED)),
+            DiscoverMutation.TrackedStatusesLoaded(mapOf("2" to ApplicationStatus.OFFER)),
+        )
+
+        assertThat(state.trackedStatuses).containsExactly("2", ApplicationStatus.OFFER)
     }
 
     private fun DiscoverUiState.reduceAll(vararg mutations: DiscoverMutation) =

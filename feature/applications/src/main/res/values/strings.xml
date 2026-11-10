@@ -22,8 +22,31 @@
   <string name="feature_applications_stop_tracking_title">Stop tracking this job?</string>
   <string name="feature_applications_stop_tracking_body">Its stage, notes and interview date will be deleted.</string>
   <string name="feature_applications_cancel">Cancel</string>
+  <string name="feature_applications_stopped_tracking">Stopped tracking %1$s</string>
+  <string name="feature_applications_undo">Undo</string>
   <string name="feature_applications_ok">OK</string>
   <string name="feature_applications_next">Next</string>
   <string name="feature_applications_not_found">This application no longer exists.</string>
   <string name="feature_applications_tracked_since">Tracking since %1$s</string>
+  <string name="feature_applications_title">Applications</string>
+  <plurals name="feature_applications_summary_interview">
+    <item quantity="one">%d interview</item>
+    <item quantity="other">%d interviews</item>
+  </plurals>
+  <plurals name="feature_applications_summary_applied">
+    <item quantity="one">%d applied</item>
+    <item quantity="other">%d applied</item>
+  </plurals>
+  <plurals name="feature_applications_summary_saved">
+    <item quantity="one">%d saved</item>
+    <item quantity="other">%d saved</item>
+  </plurals>
+  <plurals name="feature_applications_summary_offer">
+    <item quantity="one">%d offer</item>
+    <item quantity="other">%d offers</item>
+  </plurals>
+  <plurals name="feature_applications_summary_closed">
+    <item quantity="one">%d closed</item>
+    <item quantity="other">%d closed</item>
+  </plurals>
 </resources>

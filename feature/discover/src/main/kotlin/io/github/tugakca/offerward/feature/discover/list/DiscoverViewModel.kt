@@ -3,6 +3,7 @@ package io.github.tugakca.offerward.feature.discover.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.github.tugakca.offerward.core.data.repository.ApplicationRepository
 import io.github.tugakca.offerward.core.data.repository.JobRepository
 import io.github.tugakca.offerward.core.model.JobFilter
 import io.github.tugakca.offerward.core.model.RefreshResult
@@ -23,7 +24,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class DiscoverViewModel @Inject constructor(private val jobRepository: JobRepository) : ViewModel() {
+class DiscoverViewModel @Inject constructor(
+    private val jobRepository: JobRepository,
+    private val applicationRepository: ApplicationRepository,
+) : ViewModel() {
 
     private val state = MutableStateFlow(DiscoverUiState())
     val uiState: StateFlow<DiscoverUiState> = state.asStateFlow()
@@ -33,6 +37,7 @@ class DiscoverViewModel @Inject constructor(private val jobRepository: JobReposi
 
     init {
         observeJobsForCurrentFilter()
+        observeTrackedStatuses()
         refresh(userInitiated = false)
     }
 
@@ -53,6 +58,14 @@ class DiscoverViewModel @Inject constructor(private val jobRepository: JobReposi
             .distinctUntilChanged()
             .flatMapLatest(jobRepository::observeJobs)
             .onEach { mutate(DiscoverMutation.JobsLoaded(it)) }
+            .launchIn(viewModelScope)
+    }
+
+    private fun observeTrackedStatuses() {
+        applicationRepository.observeApplications()
+            .map { applications -> applications.associate { it.jobId to it.status } }
+            .distinctUntilChanged()
+            .onEach { mutate(DiscoverMutation.TrackedStatusesLoaded(it)) }
             .launchIn(viewModelScope)
     }
 
