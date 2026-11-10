@@ -16,6 +16,13 @@ internal fun splitHtmlBlocks(html: String): List<String> {
     for (match in blockTag.findAll(html)) {
         val closing = match.groupValues[1].isNotEmpty()
         val tag = match.groupValues[2].lowercase()
+        // An unclosed paragraph or heading ends where the next one starts ("<p>One<p>Two").
+        if (!closing && tag in simpleBlocks && depth == 1 && topTag in simpleBlocks) {
+            blocks += html.substring(start, match.range.first)
+            start = match.range.first
+            topTag = tag
+            continue
+        }
         // A paragraph or heading inside another block is part of it, not a block of its own.
         if (tag in simpleBlocks && (if (closing) tag != topTag || depth != 1 else depth > 0)) continue
         if (closing) {

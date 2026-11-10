@@ -41,6 +41,10 @@
     <item quantity="one">%d kayıtlı</item>
     <item quantity="other">%d kayıtlı</item>
   </plurals>
+  <plurals name="feature_applications_summary_offer">
+    <item quantity="one">%d teklif</item>
+    <item quantity="other">%d teklif</item>
+  </plurals>
   <plurals name="feature_applications_summary_closed">
     <item quantity="one">%d kapandı</item>
     <item quantity="other">%d kapandı</item>

@@ -45,4 +45,16 @@ class StopTrackingUndoViewModelTest {
 
         assertThat(repository.applications.value).containsExactly(removed)
     }
+
+    @Test
+    fun undoDoesNotOverwriteAJobThatWasTrackedAgain() {
+        val removed = application("1", status = ApplicationStatus.OFFER, notes = "Old")
+        val trackedAgain = application("1", status = ApplicationStatus.SAVED, notes = "")
+        repository.applications.value = listOf(trackedAgain)
+        val viewModel = StopTrackingUndoViewModel(events, repository)
+
+        viewModel.undo(removed)
+
+        assertThat(repository.applications.value).containsExactly(trackedAgain)
+    }
 }

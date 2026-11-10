@@ -44,6 +44,11 @@
     <item quantity="many">%d enregistrées</item>
     <item quantity="other">%d enregistrées</item>
   </plurals>
+  <plurals name="feature_applications_summary_offer">
+    <item quantity="one">%d offre</item>
+    <item quantity="many">%d offres</item>
+    <item quantity="other">%d offres</item>
+  </plurals>
   <plurals name="feature_applications_summary_closed">
     <item quantity="one">%d clôturée</item>
     <item quantity="many">%d clôturées</item>

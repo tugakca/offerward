@@ -47,6 +47,12 @@
     <item quantity="many">%d сохранено</item>
     <item quantity="other">%d сохранено</item>
   </plurals>
+  <plurals name="feature_applications_summary_offer">
+    <item quantity="one">%d оффер</item>
+    <item quantity="few">%d оффера</item>
+    <item quantity="many">%d офферов</item>
+    <item quantity="other">%d оффера</item>
+  </plurals>
   <plurals name="feature_applications_summary_closed">
     <item quantity="one">%d закрыто</item>
     <item quantity="few">%d закрыто</item>

@@ -19,6 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import io.github.tugakca.offerward.core.designsystem.motion.Motion
 
@@ -52,7 +54,8 @@ fun SelectableChip(
         selected = selected,
         onClick = onClick,
         label = { Text(label) },
-        modifier = modifier,
+        // Tell accessibility services which chip is the current one, not only the eye.
+        modifier = modifier.semantics { this.selected = selected },
         leadingIcon = {
             AnimatedVisibility(
                 visible = selected,

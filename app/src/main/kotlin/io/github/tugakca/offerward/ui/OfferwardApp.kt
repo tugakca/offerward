@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -32,6 +33,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavEntryDecorator
@@ -70,7 +72,18 @@ fun OfferwardApp(modifier: Modifier = Modifier) {
         } else {
             ScaffoldDefaults.contentWindowInsets.exclude(WindowInsets.navigationBars)
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = {
+            // Without the tab bar the snackbar would sit on the gesture area and on a detail
+            // screen's own action bar, so lift it above both.
+            SnackbarHost(
+                snackbarHostState,
+                modifier = if (showBottomBar) {
+                    Modifier
+                } else {
+                    Modifier.windowInsetsPadding(WindowInsets.navigationBars).padding(bottom = DetailActionBarHeight)
+                },
+            )
+        },
         bottomBar = {
             // Detail screens use the full height; the bar only belongs to the top-level tabs.
             AnimatedVisibility(
@@ -203,3 +216,6 @@ private fun NavBackStack<NavKey>.navigateToTopLevel(destination: TopLevelDestina
     while (size > 1) removeAt(lastIndex)
     if (destination != TopLevelDestination.entries.first()) add(destination.key)
 }
+
+/** Height of the action bar detail screens keep at the bottom (job detail: Apply / Track). */
+private val DetailActionBarHeight = 80.dp

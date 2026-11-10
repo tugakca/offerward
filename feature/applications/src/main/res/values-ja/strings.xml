@@ -38,6 +38,9 @@
   <plurals name="feature_applications_summary_saved">
     <item quantity="other">保存済み %d件</item>
   </plurals>
+  <plurals name="feature_applications_summary_offer">
+    <item quantity="other">内定 %d件</item>
+  </plurals>
   <plurals name="feature_applications_summary_closed">
     <item quantity="other">終了 %d件</item>
   </plurals>

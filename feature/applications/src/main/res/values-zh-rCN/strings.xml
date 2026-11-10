@@ -38,6 +38,9 @@
   <plurals name="feature_applications_summary_saved">
     <item quantity="other">%d 个已收藏</item>
   </plurals>
+  <plurals name="feature_applications_summary_offer">
+    <item quantity="other">%d 个录用</item>
+  </plurals>
   <plurals name="feature_applications_summary_closed">
     <item quantity="other">%d 个已结束</item>
   </plurals>

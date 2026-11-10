@@ -53,6 +53,14 @@
     <item quantity="many">%d محفوظ</item>
     <item quantity="other">%d محفوظ</item>
   </plurals>
+  <plurals name="feature_applications_summary_offer">
+    <item quantity="zero">%d عرض</item>
+    <item quantity="one">%d عرض</item>
+    <item quantity="two">%d عرض</item>
+    <item quantity="few">%d عرض</item>
+    <item quantity="many">%d عرض</item>
+    <item quantity="other">%d عرض</item>
+  </plurals>
   <plurals name="feature_applications_summary_closed">
     <item quantity="zero">%d مغلق</item>
     <item quantity="one">%d مغلق</item>

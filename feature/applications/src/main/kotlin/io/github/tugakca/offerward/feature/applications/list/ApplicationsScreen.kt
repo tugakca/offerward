@@ -138,8 +138,10 @@ private fun summaryOf(state: ApplicationsUiState.Loaded): String {
             ?.let { add(pluralStringResource(R.plurals.feature_applications_summary_applied, it, it)) }
         state.count(ApplicationStatus.SAVED).takeIf { it > 0 }
             ?.let { add(pluralStringResource(R.plurals.feature_applications_summary_saved, it, it)) }
-        val closed = state.count(ApplicationStatus.OFFER) + state.count(ApplicationStatus.REJECTED)
-        if (closed > 0) add(pluralStringResource(R.plurals.feature_applications_summary_closed, closed, closed))
+        state.count(ApplicationStatus.OFFER).takeIf { it > 0 }
+            ?.let { add(pluralStringResource(R.plurals.feature_applications_summary_offer, it, it)) }
+        state.count(ApplicationStatus.REJECTED).takeIf { it > 0 }
+            ?.let { add(pluralStringResource(R.plurals.feature_applications_summary_closed, it, it)) }
     }
     return parts.joinToString(" · ")
 }
