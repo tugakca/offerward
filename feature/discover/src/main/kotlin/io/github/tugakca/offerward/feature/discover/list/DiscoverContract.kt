@@ -2,6 +2,7 @@ package io.github.tugakca.offerward.feature.discover.list
 
 import io.github.tugakca.offerward.core.model.Job
 import io.github.tugakca.offerward.core.model.JobFilter
+import io.github.tugakca.offerward.core.model.JobSource
 import io.github.tugakca.offerward.core.model.RefreshResult
 import java.time.Instant
 
@@ -42,6 +43,9 @@ sealed interface DiscoverAction {
 sealed interface DiscoverEffect {
     data object RefreshFailed : DiscoverEffect
     data class AlreadyUpToDate(val nextRefreshAt: Instant) : DiscoverEffect
+
+    /** Some boards could not be reached; their previously saved jobs are still shown. */
+    data class SourcesUnavailable(val sources: Set<JobSource>) : DiscoverEffect
 }
 
 /** Results of the ViewModel's work, folded into the state by [reduce]. */

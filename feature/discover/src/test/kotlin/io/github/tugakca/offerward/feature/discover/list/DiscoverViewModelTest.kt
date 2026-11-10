@@ -5,6 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import io.github.tugakca.offerward.core.data.repository.JobRepository
 import io.github.tugakca.offerward.core.model.Job
 import io.github.tugakca.offerward.core.model.JobFilter
+import io.github.tugakca.offerward.core.model.JobSource
 import io.github.tugakca.offerward.core.model.RefreshResult
 import java.io.IOException
 import java.time.Instant
@@ -88,6 +89,17 @@ class DiscoverViewModelTest {
         viewModel.effects.test {
             viewModel.onAction(DiscoverAction.Refresh)
             assertThat(awaitItem()).isEqualTo(DiscoverEffect.RefreshFailed)
+        }
+    }
+
+    @Test
+    fun aPartlyFailedRefreshNamesTheBoardsThatWereDown() = runTest {
+        val viewModel = DiscoverViewModel(repository)
+        repository.nextResult = RefreshResult.Updated(jobCount = 3, unavailableSources = setOf(JobSource.JOBICY))
+
+        viewModel.effects.test {
+            viewModel.onAction(DiscoverAction.Refresh)
+            assertThat(awaitItem()).isEqualTo(DiscoverEffect.SourcesUnavailable(setOf(JobSource.JOBICY)))
         }
     }
 

@@ -7,6 +7,7 @@ import java.time.Instant
  */
 data class Job(
     val id: String,
+    val source: JobSource,
     val title: String,
     val companyName: String,
     val companyLogoUrl: String?,
@@ -19,7 +20,7 @@ data class Job(
     val descriptionHtml: String,
     val publishedAt: Instant,
     val expiresAt: Instant?,
-    /** Where the Apply button goes. Must be used unchanged (source terms). */
+    /** Where the Apply button goes. Must be used unchanged (every source's terms). */
     val applicationUrl: String,
     /** The listing's page at the source, shown for attribution. */
     val sourceUrl: String,

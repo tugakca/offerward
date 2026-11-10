@@ -7,6 +7,7 @@ import io.github.tugakca.offerward.core.data.repository.LocalApplicationReposito
 import io.github.tugakca.offerward.core.database.OfferwardDatabase
 import io.github.tugakca.offerward.core.model.ApplicationStatus
 import io.github.tugakca.offerward.core.model.Job
+import io.github.tugakca.offerward.core.model.JobSource
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset
@@ -73,6 +74,7 @@ class LocalApplicationRepositoryTest {
 
     private fun job(id: String) = Job(
         id = id,
+        source = JobSource.HIMALAYAS,
         title = "Senior Android Engineer",
         companyName = "Acme",
         companyLogoUrl = null,

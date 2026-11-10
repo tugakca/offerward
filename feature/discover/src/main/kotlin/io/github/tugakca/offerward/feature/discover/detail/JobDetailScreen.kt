@@ -200,7 +200,7 @@ private fun JobDetailContent(
         HorizontalDivider()
 
         TextButton(onClick = { onOpenUrl(job.sourceUrl) }, modifier = Modifier.align(Alignment.CenterHorizontally)) {
-            Text(stringResource(R.string.feature_discover_view_on_source))
+            Text(stringResource(R.string.feature_discover_view_on_source, job.source.displayName))
         }
     }
 }

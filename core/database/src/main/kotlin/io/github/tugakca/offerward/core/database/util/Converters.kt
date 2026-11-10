@@ -2,6 +2,7 @@ package io.github.tugakca.offerward.core.database.util
 
 import androidx.room.TypeConverter
 import io.github.tugakca.offerward.core.model.ApplicationStatus
+import io.github.tugakca.offerward.core.model.JobSource
 import java.time.Instant
 import kotlinx.serialization.json.Json
 
@@ -24,4 +25,10 @@ internal class Converters {
 
     @TypeConverter
     fun stringToStatus(value: String): ApplicationStatus = ApplicationStatus.valueOf(value)
+
+    @TypeConverter
+    fun sourceToString(value: JobSource): String = value.name
+
+    @TypeConverter
+    fun stringToSource(value: String): JobSource = JobSource.valueOf(value)
 }

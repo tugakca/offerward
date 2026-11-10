@@ -8,6 +8,7 @@ import io.github.tugakca.offerward.core.data.repository.OfflineFirstJobRepositor
 import io.github.tugakca.offerward.core.data.settings.SyncSettings
 import io.github.tugakca.offerward.core.database.OfferwardDatabase
 import io.github.tugakca.offerward.core.model.JobFilter
+import io.github.tugakca.offerward.core.model.JobSource
 import io.github.tugakca.offerward.core.model.RefreshResult
 import io.github.tugakca.offerward.core.network.JobNetworkDataSource
 import io.github.tugakca.offerward.core.network.model.NetworkJob
@@ -41,7 +42,8 @@ class OfflineFirstJobRepositoryTest {
 
     private val dataStoreScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private lateinit var db: OfferwardDatabase
-    private lateinit var network: FakeJobNetworkDataSource
+    private lateinit var himalayas: FakeJobNetworkDataSource
+    private lateinit var jobicy: FakeJobNetworkDataSource
     private lateinit var clock: MutableClock
     private lateinit var repository: OfflineFirstJobRepository
 
@@ -54,11 +56,12 @@ class OfflineFirstJobRepositoryTest {
         val dataStore = PreferenceDataStoreFactory.create(scope = dataStoreScope) {
             tmp.newFile("settings.preferences_pb")
         }
-        network = FakeJobNetworkDataSource()
+        himalayas = FakeJobNetworkDataSource(JobSource.HIMALAYAS)
+        jobicy = FakeJobNetworkDataSource(JobSource.JOBICY, jobs = emptyList())
         clock = MutableClock(Instant.parse("2026-11-10T12:00:00Z"))
         repository = OfflineFirstJobRepository(
             jobDao = db.jobDao(),
-            network = network,
+            sources = setOf(himalayas, jobicy),
             settings = SyncSettings(dataStore),
             clock = clock,
         )
@@ -71,14 +74,49 @@ class OfflineFirstJobRepositoryTest {
     }
 
     @Test
-    fun firstRefreshFetchesNewestDeveloperJobsFromEveryCountryAndCachesThem() = runTest {
-        network.jobs = listOf(networkJob("1", "Senior Android Engineer"), networkJob("2", "Android Developer"))
+    fun refreshAsksEveryBoardAndCachesTheirJobsTogether() = runTest {
+        himalayas.jobs = listOf(networkJob("h1", "Senior Android Engineer"))
+        jobicy.jobs = listOf(networkJob("j1", "Backend Developer", source = JobSource.JOBICY))
 
         val result = repository.refresh(userInitiated = false)
 
         assertThat(result).isEqualTo(RefreshResult.Updated(jobCount = 2))
-        assertThat(network.calls.single()).isEqualTo(FakeJobNetworkDataSource.Call("developer", null, 5))
-        assertThat(repository.observeJobs(JobFilter()).first().map { it.id }).containsExactly("1", "2")
+        assertThat(himalayas.calls).isEqualTo(1)
+        assertThat(jobicy.calls).isEqualTo(1)
+        val cached = repository.observeJobs(JobFilter()).first()
+        assertThat(cached.associate { it.id to it.source })
+            .containsExactly("h1", JobSource.HIMALAYAS, "j1", JobSource.JOBICY)
+    }
+
+    @Test
+    fun theSameJobOnTwoBoardsIsShownOnceFromTheHigherPrioritySource() = runTest {
+        himalayas.jobs = listOf(networkJob("h1", "Senior Android Engineer", company = "Acme, Inc."))
+        jobicy.jobs = listOf(
+            networkJob("j1", "Senior Android Engineer", company = "ACME", source = JobSource.JOBICY),
+            networkJob("j2", "Android Engineer", company = "Acme", source = JobSource.JOBICY),
+        )
+
+        val result = repository.refresh(userInitiated = false)
+
+        assertThat(result).isEqualTo(RefreshResult.Updated(jobCount = 2))
+        assertThat(repository.observeJobs(JobFilter()).first().map { it.id }).containsExactly("h1", "j2")
+    }
+
+    @Test
+    fun aBoardThatIsDownKeepsItsCachedJobsWhileTheOthersUpdate() = runTest {
+        himalayas.jobs = listOf(networkJob("h-old", "Android Developer"))
+        jobicy.jobs = listOf(networkJob("j-old", "Kotlin Developer", source = JobSource.JOBICY))
+        repository.refresh(userInitiated = false)
+        clock.advanceBy(Duration.ofHours(7))
+        himalayas.jobs = listOf(networkJob("h-new", "Android Developer"))
+        jobicy.failWith = IOException("jobicy is down")
+
+        val result = repository.refresh(userInitiated = false)
+
+        assertThat(result).isEqualTo(RefreshResult.Updated(jobCount = 2, unavailableSources = setOf(JobSource.JOBICY)))
+        assertThat(repository.observeJobs(JobFilter()).first().map { it.id }).containsExactly("h-new", "j-old")
+        // Partial success still counts as a refresh, so the cooldown starts.
+        assertThat(repository.refresh(userInitiated = false)).isInstanceOf(RefreshResult.Skipped::class.java)
     }
 
     @Test
@@ -89,11 +127,11 @@ class OfflineFirstJobRepositoryTest {
         val result = repository.refresh(userInitiated = false)
 
         assertThat(result).isEqualTo(RefreshResult.Skipped(Instant.parse("2026-11-10T18:00:00Z")))
-        assertThat(network.calls).hasSize(1)
+        assertThat(himalayas.calls).isEqualTo(1)
 
         clock.advanceBy(Duration.ofHours(1))
         assertThat(repository.refresh(userInitiated = false)).isInstanceOf(RefreshResult.Updated::class.java)
-        assertThat(network.calls).hasSize(2)
+        assertThat(himalayas.calls).isEqualTo(2)
     }
 
     @Test
@@ -108,23 +146,25 @@ class OfflineFirstJobRepositoryTest {
     }
 
     @Test
-    fun failedRefreshKeepsTheOldCacheAndDoesNotStartTheCooldown() = runTest {
-        network.jobs = listOf(networkJob("1", "Android Developer"))
+    fun whenEveryBoardFailsTheOldCacheStaysAndTheCooldownDoesNotStart() = runTest {
+        himalayas.jobs = listOf(networkJob("1", "Android Developer"))
         repository.refresh(userInitiated = false)
         clock.advanceBy(Duration.ofHours(7))
-        network.failWith = IOException("offline")
+        himalayas.failWith = IOException("offline")
+        jobicy.failWith = IOException("offline")
 
         val failed = repository.refresh(userInitiated = false)
 
         assertThat(failed).isInstanceOf(RefreshResult.Failed::class.java)
         assertThat(repository.observeJobs(JobFilter()).first().map { it.id }).containsExactly("1")
-        network.failWith = null
+        himalayas.failWith = null
+        jobicy.failWith = null
         assertThat(repository.refresh(userInitiated = false)).isInstanceOf(RefreshResult.Updated::class.java)
     }
 
     @Test
     fun expiredJobsAreNeverStored() = runTest {
-        network.jobs = listOf(
+        himalayas.jobs = listOf(
             networkJob("open", "Android Developer", expiresAt = Instant.parse("2026-12-01T00:00:00Z")),
             networkJob("expired", "Android Developer", expiresAt = Instant.parse("2026-11-01T00:00:00Z")),
         )
@@ -136,7 +176,7 @@ class OfflineFirstJobRepositoryTest {
 
     @Test
     fun seniorityComesFromTheTagOrTheTitle() = runTest {
-        network.jobs = listOf(
+        himalayas.jobs = listOf(
             networkJob("tagged", "Android Developer", seniority = listOf("Senior")),
             networkJob("titled", "Lead Android Engineer"),
             networkJob("mid", "Android Developer"),
@@ -149,15 +189,15 @@ class OfflineFirstJobRepositoryTest {
         assertThat(senior).containsExactly("tagged", "titled")
     }
 
-    private class FakeJobNetworkDataSource : JobNetworkDataSource {
-        data class Call(val query: String, val countryCode: String?, val maxPages: Int)
-
-        var jobs: List<NetworkJob> = listOf(networkJob("default", "Android Developer"))
+    private class FakeJobNetworkDataSource(
+        override val source: JobSource,
+        var jobs: List<NetworkJob> = listOf(networkJob("default", "Android Developer", source = source)),
+    ) : JobNetworkDataSource {
         var failWith: Exception? = null
-        val calls = mutableListOf<Call>()
+        var calls = 0
 
-        override suspend fun searchJobs(query: String, countryCode: String?, maxPages: Int): List<NetworkJob> {
-            calls += Call(query, countryCode, maxPages)
+        override suspend fun fetchLatestJobs(): List<NetworkJob> {
+            calls++
             failWith?.let { throw it }
             return jobs
         }
@@ -176,13 +216,29 @@ class OfflineFirstJobRepositoryTest {
     }
 }
 
-private fun networkJob(id: String, title: String, seniority: List<String> = emptyList(), expiresAt: Instant? = null) =
-    NetworkJob(
-        guid = id,
-        title = title,
-        companyName = "Acme",
-        seniority = seniority,
-        pubDate = Instant.parse("2026-11-09T00:00:00Z").epochSecond,
-        expiryDate = expiresAt?.epochSecond,
-        applicationLink = "https://example.com/$id/apply",
-    )
+private fun networkJob(
+    id: String,
+    title: String,
+    company: String = "Acme",
+    source: JobSource = JobSource.HIMALAYAS,
+    seniority: List<String> = emptyList(),
+    expiresAt: Instant? = null,
+) = NetworkJob(
+    source = source,
+    id = id,
+    title = title,
+    companyName = company,
+    companyLogoUrl = null,
+    employmentType = null,
+    seniority = seniority,
+    locationRestrictions = emptyList(),
+    salaryMin = null,
+    salaryMax = null,
+    salaryCurrency = null,
+    salaryPeriod = null,
+    excerpt = "",
+    descriptionHtml = "",
+    publishedAt = Instant.parse("2026-11-09T00:00:00Z"),
+    expiresAt = expiresAt,
+    applicationUrl = "https://example.com/$id/apply",
+)

@@ -5,6 +5,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import io.github.tugakca.offerward.core.database.model.JobEntity
+import io.github.tugakca.offerward.core.model.JobSource
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -33,6 +34,10 @@ interface JobDao {
 
     @Query("SELECT * FROM jobs WHERE id = :id")
     fun observeJob(id: String): Flow<JobEntity?>
+
+    /** Cached jobs from [sources], used to keep a source's jobs when it cannot be reached. */
+    @Query("SELECT * FROM jobs WHERE source IN (:sources)")
+    suspend fun getJobsFrom(sources: Set<JobSource>): List<JobEntity>
 
     @Upsert
     suspend fun upsertJobs(jobs: List<JobEntity>)

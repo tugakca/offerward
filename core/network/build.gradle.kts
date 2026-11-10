@@ -12,6 +12,7 @@ android {
 }
 
 dependencies {
+    api(projects.core.model)
     api(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.okhttp.core)

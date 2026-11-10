@@ -1,12 +1,15 @@
 package io.github.tugakca.offerward.core.network
 
+import io.github.tugakca.offerward.core.model.JobSource
 import io.github.tugakca.offerward.core.network.model.NetworkJob
 
-/** Where remote jobs come from. An interface so the data layer can be tested with a fake. */
+/**
+ * One job board. Each board has its own API, paging and quirks; implementations hide all of that
+ * and return [NetworkJob]s, so the data layer treats every board the same way.
+ */
 interface JobNetworkDataSource {
-    /**
-     * Returns jobs matching [query] that people in [countryCode] can apply to, newest first,
-     * reading at most [maxPages] pages. Throws on network or parsing errors.
-     */
-    suspend fun searchJobs(query: String, countryCode: String?, maxPages: Int): List<NetworkJob>
+    val source: JobSource
+
+    /** The board's newest software jobs, newest first. Throws on network or parsing errors. */
+    suspend fun fetchLatestJobs(): List<NetworkJob>
 }

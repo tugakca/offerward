@@ -61,6 +61,11 @@ internal fun DiscoverRoute(onJobClick: (jobId: String) -> Unit, viewModel: Disco
             val message = when (effect) {
                 DiscoverEffect.RefreshFailed -> resources.getString(R.string.feature_discover_refresh_failed)
 
+                is DiscoverEffect.SourcesUnavailable -> resources.getString(
+                    R.string.feature_discover_sources_unavailable,
+                    effect.sources.sorted().joinToString { it.displayName },
+                )
+
                 is DiscoverEffect.AlreadyUpToDate -> resources.getString(
                     R.string.feature_discover_up_to_date,
                     DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
