@@ -26,4 +26,21 @@
   <string name="feature_applications_next">Next</string>
   <string name="feature_applications_not_found">This application no longer exists.</string>
   <string name="feature_applications_tracked_since">Tracking since %1$s</string>
+  <string name="feature_applications_title">Applications</string>
+  <plurals name="feature_applications_summary_interview">
+    <item quantity="one">%d interview</item>
+    <item quantity="other">%d interviews</item>
+  </plurals>
+  <plurals name="feature_applications_summary_applied">
+    <item quantity="one">%d applied</item>
+    <item quantity="other">%d applied</item>
+  </plurals>
+  <plurals name="feature_applications_summary_saved">
+    <item quantity="one">%d saved</item>
+    <item quantity="other">%d saved</item>
+  </plurals>
+  <plurals name="feature_applications_summary_closed">
+    <item quantity="one">%d closed</item>
+    <item quantity="other">%d closed</item>
+  </plurals>
 </resources>

@@ -26,4 +26,17 @@
   <string name="feature_applications_next">次へ</string>
   <string name="feature_applications_not_found">この応募はもう存在しません。</string>
   <string name="feature_applications_tracked_since">%1$sから管理中</string>
+  <string name="feature_applications_title">応募</string>
+  <plurals name="feature_applications_summary_interview">
+    <item quantity="other">面接 %d件</item>
+  </plurals>
+  <plurals name="feature_applications_summary_applied">
+    <item quantity="other">応募済み %d件</item>
+  </plurals>
+  <plurals name="feature_applications_summary_saved">
+    <item quantity="other">保存済み %d件</item>
+  </plurals>
+  <plurals name="feature_applications_summary_closed">
+    <item quantity="other">終了 %d件</item>
+  </plurals>
 </resources>

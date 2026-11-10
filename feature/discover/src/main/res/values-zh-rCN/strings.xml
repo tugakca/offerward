@@ -29,4 +29,10 @@
   <string name="feature_discover_salary_per_month">%1$s / 月</string>
   <string name="feature_discover_salary_per_week">%1$s / 周</string>
   <string name="feature_discover_salary_per_hour">%1$s / 小时</string>
+  <string name="feature_discover_status_saved">已收藏</string>
+  <string name="feature_discover_status_applied">已申请</string>
+  <string name="feature_discover_status_interview">面试</string>
+  <string name="feature_discover_status_offer">录用</string>
+  <string name="feature_discover_status_rejected">已拒绝</string>
+  <string name="feature_discover_loading">正在加载职位</string>
 </resources>

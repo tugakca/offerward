@@ -26,4 +26,29 @@
   <string name="feature_applications_next">Далее</string>
   <string name="feature_applications_not_found">Этот отклик больше не существует.</string>
   <string name="feature_applications_tracked_since">Отслеживается с %1$s</string>
+  <string name="feature_applications_title">Отклики</string>
+  <plurals name="feature_applications_summary_interview">
+    <item quantity="one">%d собеседование</item>
+    <item quantity="few">%d собеседования</item>
+    <item quantity="many">%d собеседований</item>
+    <item quantity="other">%d собеседования</item>
+  </plurals>
+  <plurals name="feature_applications_summary_applied">
+    <item quantity="one">%d отправлено</item>
+    <item quantity="few">%d отправлено</item>
+    <item quantity="many">%d отправлено</item>
+    <item quantity="other">%d отправлено</item>
+  </plurals>
+  <plurals name="feature_applications_summary_saved">
+    <item quantity="one">%d сохранено</item>
+    <item quantity="few">%d сохранено</item>
+    <item quantity="many">%d сохранено</item>
+    <item quantity="other">%d сохранено</item>
+  </plurals>
+  <plurals name="feature_applications_summary_closed">
+    <item quantity="one">%d закрыто</item>
+    <item quantity="few">%d закрыто</item>
+    <item quantity="many">%d закрыто</item>
+    <item quantity="other">%d закрыто</item>
+  </plurals>
 </resources>

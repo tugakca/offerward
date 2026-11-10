@@ -15,7 +15,10 @@ import kotlinx.coroutines.flow.stateIn
 sealed interface ApplicationsUiState {
     data object Loading : ApplicationsUiState
     data object Empty : ApplicationsUiState
-    data class Loaded(val sections: List<ApplicationSection>) : ApplicationsUiState
+    data class Loaded(val sections: List<ApplicationSection>) : ApplicationsUiState {
+        /** How many applications are at [status]; feeds the one-line summary under the title. */
+        fun count(status: ApplicationStatus): Int = sections.find { it.status == status }?.applications?.size ?: 0
+    }
 }
 
 data class ApplicationSection(val status: ApplicationStatus, val applications: List<JobApplication>)

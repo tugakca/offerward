@@ -1,9 +1,11 @@
 package io.github.tugakca.offerward.feature.discover.ui
 
 import android.text.format.DateUtils
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import io.github.tugakca.offerward.core.model.ApplicationStatus
 import io.github.tugakca.offerward.core.model.Job
 import io.github.tugakca.offerward.core.model.Salary
 import io.github.tugakca.offerward.feature.discover.R
@@ -24,6 +26,17 @@ internal fun Job.locationLabel(): String = when {
         locationRestrictions.size,
     )
 }
+
+/** The stage name shown on a tracked job's card. */
+@get:StringRes
+internal val ApplicationStatus.label: Int
+    get() = when (this) {
+        ApplicationStatus.SAVED -> R.string.feature_discover_status_saved
+        ApplicationStatus.APPLIED -> R.string.feature_discover_status_applied
+        ApplicationStatus.INTERVIEW -> R.string.feature_discover_status_interview
+        ApplicationStatus.OFFER -> R.string.feature_discover_status_offer
+        ApplicationStatus.REJECTED -> R.string.feature_discover_status_rejected
+    }
 
 /** "2 hours ago", relative to [now]. */
 internal fun Instant.relativeTo(now: Instant): String = DateUtils.getRelativeTimeSpanString(

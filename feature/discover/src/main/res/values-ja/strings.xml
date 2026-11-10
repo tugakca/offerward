@@ -29,4 +29,10 @@
   <string name="feature_discover_salary_per_month">%1$s / 月</string>
   <string name="feature_discover_salary_per_week">%1$s / 週</string>
   <string name="feature_discover_salary_per_hour">%1$s / 時</string>
+  <string name="feature_discover_status_saved">保存済み</string>
+  <string name="feature_discover_status_applied">応募済み</string>
+  <string name="feature_discover_status_interview">面接</string>
+  <string name="feature_discover_status_offer">内定</string>
+  <string name="feature_discover_status_rejected">不採用</string>
+  <string name="feature_discover_loading">求人を読み込み中</string>
 </resources>
