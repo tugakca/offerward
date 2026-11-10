@@ -76,7 +76,11 @@ class DiscoverViewModel @Inject constructor(private val jobRepository: JobReposi
                     )
                 }
 
-                is RefreshResult.Updated -> Unit
+                is RefreshResult.Updated -> if (result.unavailableSources.isNotEmpty()) {
+                    effectChannel.send(
+                        DiscoverEffect.SourcesUnavailable(result.unavailableSources),
+                    )
+                }
             }
         }
     }

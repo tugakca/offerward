@@ -5,10 +5,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoSet
 import io.github.tugakca.offerward.core.network.BuildConfig
 import io.github.tugakca.offerward.core.network.JobNetworkDataSource
-import io.github.tugakca.offerward.core.network.retrofit.HimalayasApi
-import io.github.tugakca.offerward.core.network.retrofit.RetrofitJobNetworkDataSource
+import io.github.tugakca.offerward.core.network.himalayas.HimalayasApi
+import io.github.tugakca.offerward.core.network.himalayas.HimalayasJobDataSource
+import io.github.tugakca.offerward.core.network.jobicy.JobicyApi
+import io.github.tugakca.offerward.core.network.jobicy.JobicyJobDataSource
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import kotlinx.serialization.json.Json
@@ -18,16 +21,23 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
+/**
+ * Every job board is bound into one `Set<JobNetworkDataSource>`. Adding a board is a new data
+ * source plus one `@IntoSet` line here; the repository does not change.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 internal abstract class NetworkModule {
 
     @Binds
-    abstract fun bindJobNetworkDataSource(impl: RetrofitJobNetworkDataSource): JobNetworkDataSource
+    @IntoSet
+    abstract fun bindHimalayas(impl: HimalayasJobDataSource): JobNetworkDataSource
+
+    @Binds
+    @IntoSet
+    abstract fun bindJobicy(impl: JobicyJobDataSource): JobNetworkDataSource
 
     companion object {
-        private const val BASE_URL = "https://himalayas.app/"
-
         @Provides
         @Singleton
         fun provideJson(): Json = networkJson
@@ -53,16 +63,23 @@ internal abstract class NetworkModule {
 
         @Provides
         @Singleton
-        fun provideHimalayasApi(okHttpClient: OkHttpClient, json: Json): HimalayasApi = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+        fun provideHimalayasApi(okHttpClient: OkHttpClient, json: Json): HimalayasApi =
+            retrofit("https://himalayas.app/", okHttpClient, json).create(HimalayasApi::class.java)
+
+        @Provides
+        @Singleton
+        fun provideJobicyApi(okHttpClient: OkHttpClient, json: Json): JobicyApi =
+            retrofit("https://jobicy.com/", okHttpClient, json).create(JobicyApi::class.java)
+
+        private fun retrofit(baseUrl: String, okHttpClient: OkHttpClient, json: Json): Retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
             .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
-            .create(HimalayasApi::class.java)
     }
 }
 
-/** Lenient on purpose: the API adds fields over time and sometimes sends nulls. */
+/** Lenient on purpose: the APIs add fields over time and sometimes send nulls. */
 internal val networkJson = Json {
     ignoreUnknownKeys = true
     coerceInputValues = true

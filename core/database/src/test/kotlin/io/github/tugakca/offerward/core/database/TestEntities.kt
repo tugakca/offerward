@@ -3,6 +3,7 @@ package io.github.tugakca.offerward.core.database
 import io.github.tugakca.offerward.core.database.model.ApplicationEntity
 import io.github.tugakca.offerward.core.database.model.JobEntity
 import io.github.tugakca.offerward.core.model.ApplicationStatus
+import io.github.tugakca.offerward.core.model.JobSource
 import java.time.Instant
 
 internal fun testJob(
@@ -12,8 +13,10 @@ internal fun testJob(
     publishedAt: Instant = Instant.parse("2026-11-01T10:00:00Z"),
     isWorldwide: Boolean = true,
     isSenior: Boolean = false,
+    source: JobSource = JobSource.HIMALAYAS,
 ) = JobEntity(
     id = id,
+    source = source,
     title = title,
     companyName = companyName,
     companyLogoUrl = null,

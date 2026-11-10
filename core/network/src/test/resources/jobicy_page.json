@@ -1,0 +1,51 @@
+{
+  "comments": "Synthetic fixture shaped like a Jobicy /api/jobs response.",
+  "apiVersion": "2.2.19",
+  "jobCount": 3,
+  "nextCursor": null,
+  "hasMore": false,
+  "jobs": [
+    {
+      "id": 101,
+      "url": "https://jobicy.com/jobs/101-senior-android-engineer",
+      "jobSlug": "101-senior-android-engineer",
+      "jobTitle": "Senior Android Engineer &#8211; Kotlin",
+      "companyName": "Acme &amp; Sons",
+      "companyLogo": "https://example.com/acme.webp",
+      "jobIndustry": ["Software Engineering"],
+      "jobType": ["Full-Time"],
+      "jobGeo": "Anywhere",
+      "jobLevel": "Senior",
+      "jobExcerpt": "We&#8217;re building things&hellip;",
+      "jobDescription": "<p>Build our <b>Compose</b> app.</p>",
+      "pubDate": "2026-11-10T14:03:49+00:00",
+      "salaryMin": 90000,
+      "salaryMax": 120000,
+      "salaryCurrency": "USD",
+      "salaryPeriod": "yearly"
+    },
+    {
+      "id": 102,
+      "url": "https://jobicy.com/jobs/102-backend-developer",
+      "jobTitle": "Backend Developer",
+      "companyName": "Beta",
+      "jobType": [],
+      "jobGeo": "Canada,  USA",
+      "jobLevel": "Any",
+      "jobExcerpt": "",
+      "jobDescription": "<p>Go.</p>",
+      "pubDate": "2026-11-10T12:00:00+02:00",
+      "newFieldTheAppDoesNotKnow": {"nested": true}
+    },
+    {
+      "id": 103,
+      "url": "https://jobicy.com/jobs/103-qa-engineer",
+      "jobTitle": "QA Engineer",
+      "companyName": "Gamma",
+      "companyLogo": "",
+      "jobGeo": "Europe",
+      "jobLevel": "Entry-Level, Junior",
+      "pubDate": "2026-11-09T08:00:00+00:00"
+    }
+  ]
+}

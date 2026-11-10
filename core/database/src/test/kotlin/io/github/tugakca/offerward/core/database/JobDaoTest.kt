@@ -1,6 +1,7 @@
 package io.github.tugakca.offerward.core.database
 
 import com.google.common.truth.Truth.assertThat
+import io.github.tugakca.offerward.core.model.JobSource
 import java.time.Instant
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -51,6 +52,14 @@ class JobDaoTest : DatabaseTest() {
         assertThat(observeIds(androidOnly = true, seniorOnly = true)).containsExactly("android-senior-ww")
         assertThat(observeIds(androidOnly = false, worldwideOnly = true))
             .containsExactly("android-senior-ww", "ios-senior-ww")
+    }
+
+    @Test
+    fun getJobsFromReturnsOnlyTheGivenSources() = runTest {
+        dao.upsertJobs(listOf(testJob("h"), testJob("j", source = JobSource.JOBICY)))
+
+        assertThat(dao.getJobsFrom(setOf(JobSource.JOBICY)).map { it.id }).containsExactly("j")
+        assertThat(dao.getJobsFrom(emptySet())).isEmpty()
     }
 
     @Test

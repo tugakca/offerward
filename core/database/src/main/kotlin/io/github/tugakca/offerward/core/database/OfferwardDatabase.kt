@@ -1,5 +1,6 @@
 package io.github.tugakca.offerward.core.database
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -11,8 +12,12 @@ import io.github.tugakca.offerward.core.database.util.Converters
 
 @Database(
     entities = [JobEntity::class, ApplicationEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = true,
+    autoMigrations = [
+        // 1 -> 2: jobs.source, for the second job board. Existing rows default to Himalayas.
+        AutoMigration(from = 1, to = 2),
+    ],
 )
 @TypeConverters(Converters::class)
 abstract class OfferwardDatabase : RoomDatabase() {

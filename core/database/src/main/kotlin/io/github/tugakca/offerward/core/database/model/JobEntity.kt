@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import io.github.tugakca.offerward.core.model.JobSource
 import java.time.Instant
 
 /**
@@ -16,6 +17,8 @@ import java.time.Instant
 )
 data class JobEntity(
     @PrimaryKey val id: String,
+    /** Rows cached before version 2 all came from Himalayas, the only source back then. */
+    @ColumnInfo(defaultValue = "HIMALAYAS") val source: JobSource,
     val title: String,
     @ColumnInfo(name = "company_name") val companyName: String,
     @ColumnInfo(name = "company_logo_url") val companyLogoUrl: String?,

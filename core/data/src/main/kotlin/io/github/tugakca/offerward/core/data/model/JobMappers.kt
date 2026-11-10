@@ -10,36 +10,37 @@ import java.time.Instant
 
 private val seniorTitle = Regex("""\b(senior|sr\.?|lead|staff|principal)\b""", RegexOption.IGNORE_CASE)
 
-internal fun NetworkJob.isExpiredAt(now: Instant): Boolean {
-    val expiry = expiryDate ?: return false
-    return Instant.ofEpochSecond(expiry).isBefore(now)
-}
+internal fun NetworkJob.isExpiredAt(now: Instant): Boolean = expiresAt?.isBefore(now) == true
+
+internal fun JobEntity.isExpiredAt(now: Instant): Boolean = expiresAt?.isBefore(now) == true
 
 internal fun NetworkJob.asEntity() = JobEntity(
-    id = guid,
+    id = id,
+    source = source,
     title = title.trim(),
     companyName = companyName.trim(),
-    companyLogoUrl = companyLogo,
+    companyLogoUrl = companyLogoUrl,
     employmentType = employmentType,
     seniority = seniority,
     locationRestrictions = locationRestrictions,
     isWorldwide = locationRestrictions.isEmpty(),
-    // The API's seniority tag is missing on many listings, so the title is a second signal.
+    // The seniority tag is missing on many listings, so the title is a second signal.
     isSenior = seniority.any { it.equals("Senior", ignoreCase = true) } || seniorTitle.containsMatchIn(title),
-    salaryMin = minSalary,
-    salaryMax = maxSalary,
-    salaryCurrency = currency,
+    salaryMin = salaryMin,
+    salaryMax = salaryMax,
+    salaryCurrency = salaryCurrency,
     salaryPeriod = salaryPeriod,
     excerpt = excerpt.trim(),
-    descriptionHtml = description,
-    publishedAt = Instant.ofEpochSecond(pubDate),
-    expiresAt = expiryDate?.let(Instant::ofEpochSecond),
-    applicationUrl = applicationLink,
-    sourceUrl = guid,
+    descriptionHtml = descriptionHtml,
+    publishedAt = publishedAt,
+    expiresAt = expiresAt,
+    applicationUrl = applicationUrl,
+    sourceUrl = id,
 )
 
 internal fun JobEntity.asModel() = Job(
     id = id,
+    source = source,
     title = title,
     companyName = companyName,
     companyLogoUrl = companyLogoUrl,

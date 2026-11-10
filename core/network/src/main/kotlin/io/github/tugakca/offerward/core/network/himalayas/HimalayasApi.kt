@@ -1,6 +1,5 @@
-package io.github.tugakca.offerward.core.network.retrofit
+package io.github.tugakca.offerward.core.network.himalayas
 
-import io.github.tugakca.offerward.core.network.model.NetworkJobSearchResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -9,9 +8,7 @@ internal interface HimalayasApi {
     @GET("jobs/api/search")
     suspend fun search(
         @Query("q") query: String,
-        /** ISO 3166 alpha-2. Also returns worldwide jobs open to that country. */
-        @Query("country") countryCode: String?,
         @Query("page") page: Int,
         @Query("sort") sort: String = "recent",
-    ): NetworkJobSearchResponse
+    ): HimalayasSearchResponse
 }

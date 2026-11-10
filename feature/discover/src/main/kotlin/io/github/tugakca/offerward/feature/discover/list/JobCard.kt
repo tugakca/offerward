@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import io.github.tugakca.offerward.core.designsystem.component.CompanyLogo
 import io.github.tugakca.offerward.core.designsystem.theme.OfferwardTheme
 import io.github.tugakca.offerward.core.model.Job
+import io.github.tugakca.offerward.core.model.JobSource
 import io.github.tugakca.offerward.core.model.Salary
 import io.github.tugakca.offerward.feature.discover.ui.formatted
 import io.github.tugakca.offerward.feature.discover.ui.locationLabel
@@ -45,7 +46,7 @@ internal fun JobCard(job: Job, now: Instant, onClick: () -> Unit, modifier: Modi
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    text = "${job.companyName} · ${job.publishedAt.relativeTo(now)}",
+                    text = "${job.companyName} · ${job.publishedAt.relativeTo(now)} · ${job.source.displayName}",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
@@ -92,6 +93,7 @@ internal fun JobTag(text: String, modifier: Modifier = Modifier, highlighted: Bo
 
 internal val previewJob = Job(
     id = "preview",
+    source = JobSource.HIMALAYAS,
     title = "Senior Android Engineer (Kotlin, Compose)",
     companyName = "Acme Mobile",
     companyLogoUrl = null,
