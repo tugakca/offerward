@@ -22,6 +22,7 @@ dependencies {
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
+    compileOnly(libs.room.gradlePlugin)
     compileOnly(libs.spotless.gradlePlugin)
 }
 
@@ -53,6 +54,10 @@ gradlePlugin {
         register("androidFeature") {
             id = libs.plugins.offerward.android.feature.get().pluginId
             implementationClass = "AndroidFeatureConventionPlugin"
+        }
+        register("androidRoom") {
+            id = libs.plugins.offerward.android.room.get().pluginId
+            implementationClass = "AndroidRoomConventionPlugin"
         }
         register("hilt") {
             id = libs.plugins.offerward.hilt.get().pluginId
