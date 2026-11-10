@@ -1,0 +1,47 @@
+{
+  "comments": "Synthetic fixture shaped like a Himalayas /jobs/api/search response.",
+  "offset": 0,
+  "limit": 20,
+  "totalCount": 2,
+  "jobs": [
+    {
+      "title": "Senior Android Engineer",
+      "excerpt": "Build our Compose app.",
+      "companyName": "Acme Mobile",
+      "companySlug": "acme-mobile",
+      "companyLogo": "https://example.com/acme.png",
+      "employmentType": "Full Time",
+      "minSalary": 70000,
+      "maxSalary": 90000,
+      "salaryPeriod": "annual",
+      "seniority": ["Senior"],
+      "currency": "USD",
+      "locationRestrictions": [],
+      "timezoneRestrictions": [0, 1, 2, 3],
+      "categories": ["Android-Developer"],
+      "parentCategories": [],
+      "description": "<p>Build our <b>Compose</b> app.</p>",
+      "pubDate": 1794317072,
+      "expiryDate": 1796908875,
+      "applicationLink": "https://example.com/acme/apply?utm_source=api",
+      "guid": "https://example.com/acme/jobs/senior-android-engineer"
+    },
+    {
+      "title": "Mobile Developer",
+      "excerpt": "",
+      "companyName": "Beta Apps",
+      "companyLogo": null,
+      "employmentType": null,
+      "minSalary": null,
+      "maxSalary": null,
+      "salaryPeriod": "annual",
+      "currency": null,
+      "locationRestrictions": ["Turkey", "Germany"],
+      "description": "<p>Kotlin and Swift.</p>",
+      "pubDate": 1794217072,
+      "applicationLink": "https://example.com/beta/apply",
+      "guid": "https://example.com/beta/jobs/mobile-developer",
+      "newFieldTheAppDoesNotKnow": {"nested": true}
+    }
+  ]
+}
