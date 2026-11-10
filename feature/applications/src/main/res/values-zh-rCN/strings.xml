@@ -22,6 +22,8 @@
   <string name="feature_applications_stop_tracking_title">停止跟踪此职位？</string>
   <string name="feature_applications_stop_tracking_body">其阶段、备注和面试日期将被删除。</string>
   <string name="feature_applications_cancel">取消</string>
+  <string name="feature_applications_stopped_tracking">已停止跟踪 %1$s</string>
+  <string name="feature_applications_undo">撤销</string>
   <string name="feature_applications_ok">确定</string>
   <string name="feature_applications_next">下一步</string>
   <string name="feature_applications_not_found">此申请已不存在。</string>

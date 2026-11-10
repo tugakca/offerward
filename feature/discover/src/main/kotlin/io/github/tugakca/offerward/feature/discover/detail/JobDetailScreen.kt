@@ -1,8 +1,11 @@
 package io.github.tugakca.offerward.feature.discover.detail
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -61,11 +64,14 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.tugakca.offerward.core.designsystem.component.CompanyLogo
+import io.github.tugakca.offerward.core.designsystem.motion.Motion
+import io.github.tugakca.offerward.core.designsystem.motion.sharedElementOrNone
 import io.github.tugakca.offerward.core.designsystem.theme.OfferwardTheme
 import io.github.tugakca.offerward.core.model.ApplicationStatus
 import io.github.tugakca.offerward.core.model.Job
 import io.github.tugakca.offerward.feature.discover.R
 import io.github.tugakca.offerward.feature.discover.list.JobTag
+import io.github.tugakca.offerward.feature.discover.list.jobLogoKey
 import io.github.tugakca.offerward.feature.discover.list.previewJob
 import io.github.tugakca.offerward.feature.discover.ui.formatted
 import io.github.tugakca.offerward.feature.discover.ui.isHeadingBlock
@@ -200,11 +206,25 @@ private fun ActionBar(
                 onClick = if (applicationStatus == null) onTrack else onOpenApplication,
                 modifier = Modifier.weight(1f),
             ) {
-                if (applicationStatus != null) {
-                    Icon(Icons.Filled.Check, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Text(stringResource(R.string.feature_discover_tracked), modifier = Modifier.padding(start = 6.dp))
-                } else {
-                    Text(stringResource(R.string.feature_discover_track))
+                AnimatedContent(
+                    targetState = applicationStatus != null,
+                    transitionSpec = {
+                        fadeIn(tween(Motion.ButtonSwapMillis, easing = Motion.EmphasizedDecelerate)) togetherWith
+                            fadeOut(tween(Motion.ButtonSwapMillis, easing = Motion.EmphasizedAccelerate))
+                    },
+                    label = "track button",
+                ) { tracked ->
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (tracked) {
+                            Icon(Icons.Filled.Check, contentDescription = null, modifier = Modifier.size(18.dp))
+                            Text(
+                                stringResource(R.string.feature_discover_tracked),
+                                modifier = Modifier.padding(start = 6.dp),
+                            )
+                        } else {
+                            Text(stringResource(R.string.feature_discover_track))
+                        }
+                    }
                 }
             }
         }
@@ -221,7 +241,12 @@ private fun JobDetailContent(job: Job, now: Instant, scrollState: ScrollState, o
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
-            CompanyLogo(logoUrl = job.companyLogoUrl, companyName = job.companyName, size = 56.dp)
+            CompanyLogo(
+                logoUrl = job.companyLogoUrl,
+                companyName = job.companyName,
+                modifier = Modifier.sharedElementOrNone(jobLogoKey(job.id)),
+                size = 56.dp,
+            )
             Column {
                 Text(job.title, style = MaterialTheme.typography.titleLarge)
                 Text(

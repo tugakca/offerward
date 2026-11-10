@@ -1,5 +1,10 @@
 package io.github.tugakca.offerward.feature.discover.list
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -45,6 +50,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.tugakca.offerward.core.designsystem.component.SelectableChip
 import io.github.tugakca.offerward.core.designsystem.component.StateMessage
+import io.github.tugakca.offerward.core.designsystem.motion.Motion
+import io.github.tugakca.offerward.core.designsystem.motion.animateListItem
 import io.github.tugakca.offerward.core.designsystem.theme.OfferwardTheme
 import io.github.tugakca.offerward.feature.discover.R
 import java.time.Instant
@@ -117,31 +124,41 @@ internal fun DiscoverScreen(
                 onRefresh = { onAction(DiscoverAction.Refresh) },
                 modifier = Modifier.fillMaxSize(),
             ) {
-                when (state.content) {
-                    DiscoverContent.Loading -> JobListSkeleton()
+                // Keyed by the kind of content only, so edits to the job list itself keep using animateItem.
+                AnimatedContent(
+                    targetState = state.content,
+                    transitionSpec = {
+                        fadeIn(tween(Motion.ContentFadeInMillis, Motion.ContentFadeInDelayMillis)) togetherWith
+                            fadeOut(tween(Motion.ContentFadeOutMillis))
+                    },
+                    label = "discover content",
+                ) { content ->
+                    when (content) {
+                        DiscoverContent.Loading -> JobListSkeleton()
 
-                    DiscoverContent.Jobs -> JobList(state = state, now = now, onJobClick = onJobClick)
+                        DiscoverContent.Jobs -> JobList(state = state, now = now, onJobClick = onJobClick)
 
-                    DiscoverContent.NoMatches -> Message(
-                        icon = Icons.Outlined.Search,
-                        text = stringResource(R.string.feature_discover_no_matches),
-                        actionLabel = stringResource(R.string.feature_discover_clear_filters),
-                        onAction = { onAction(DiscoverAction.ClearFilters) },
-                    )
+                        DiscoverContent.NoMatches -> Message(
+                            icon = Icons.Outlined.Search,
+                            text = stringResource(R.string.feature_discover_no_matches),
+                            actionLabel = stringResource(R.string.feature_discover_clear_filters),
+                            onAction = { onAction(DiscoverAction.ClearFilters) },
+                        )
 
-                    DiscoverContent.Empty -> Message(
-                        icon = Icons.AutoMirrored.Outlined.List,
-                        text = stringResource(R.string.feature_discover_empty),
-                        actionLabel = stringResource(R.string.feature_discover_retry),
-                        onAction = { onAction(DiscoverAction.Refresh) },
-                    )
+                        DiscoverContent.Empty -> Message(
+                            icon = Icons.AutoMirrored.Outlined.List,
+                            text = stringResource(R.string.feature_discover_empty),
+                            actionLabel = stringResource(R.string.feature_discover_retry),
+                            onAction = { onAction(DiscoverAction.Refresh) },
+                        )
 
-                    DiscoverContent.Error -> Message(
-                        icon = Icons.Outlined.Warning,
-                        text = stringResource(R.string.feature_discover_error),
-                        actionLabel = stringResource(R.string.feature_discover_retry),
-                        onAction = { onAction(DiscoverAction.Refresh) },
-                    )
+                        DiscoverContent.Error -> Message(
+                            icon = Icons.Outlined.Warning,
+                            text = stringResource(R.string.feature_discover_error),
+                            actionLabel = stringResource(R.string.feature_discover_retry),
+                            onAction = { onAction(DiscoverAction.Refresh) },
+                        )
+                    }
                 }
             }
         }
@@ -219,7 +236,7 @@ private fun JobList(state: DiscoverUiState, now: Instant, onJobClick: (String) -
                 job = job,
                 now = now,
                 onClick = { onJobClick(job.id) },
-                modifier = Modifier.animateItem(),
+                modifier = animateListItem(),
                 trackedStatus = state.trackedStatuses[job.id],
             )
         }

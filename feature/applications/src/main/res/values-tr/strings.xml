@@ -22,6 +22,8 @@
   <string name="feature_applications_stop_tracking_title">Bu ilanın takibi bırakılsın mı?</string>
   <string name="feature_applications_stop_tracking_body">Aşaması, notları ve mülakat tarihi silinecek.</string>
   <string name="feature_applications_cancel">İptal</string>
+  <string name="feature_applications_stopped_tracking">%1$s takibi bırakıldı</string>
+  <string name="feature_applications_undo">Geri al</string>
   <string name="feature_applications_ok">Tamam</string>
   <string name="feature_applications_next">İleri</string>
   <string name="feature_applications_not_found">Bu başvuru artık yok.</string>

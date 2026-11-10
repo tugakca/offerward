@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.tugakca.offerward.core.designsystem.component.CompanyLogo
+import io.github.tugakca.offerward.core.designsystem.motion.sharedElementOrNone
 import io.github.tugakca.offerward.core.designsystem.theme.OfferwardTheme
 import io.github.tugakca.offerward.core.model.ApplicationStatus
 import io.github.tugakca.offerward.core.model.Job
@@ -35,6 +36,9 @@ import io.github.tugakca.offerward.feature.discover.ui.label
 import io.github.tugakca.offerward.feature.discover.ui.locationLabel
 import io.github.tugakca.offerward.feature.discover.ui.relativeTo
 import java.time.Instant
+
+/** Shared-element key of the logo that travels between a job's card and its detail screen. */
+internal fun jobLogoKey(jobId: String) = "job-logo-$jobId"
 
 @Composable
 internal fun JobCard(
@@ -53,7 +57,11 @@ internal fun JobCard(
             modifier = Modifier.padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            CompanyLogo(logoUrl = job.companyLogoUrl, companyName = job.companyName)
+            CompanyLogo(
+                logoUrl = job.companyLogoUrl,
+                companyName = job.companyName,
+                modifier = Modifier.sharedElementOrNone(jobLogoKey(job.id)),
+            )
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(
                     text = job.title,

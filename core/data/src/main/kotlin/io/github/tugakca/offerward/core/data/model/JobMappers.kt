@@ -72,3 +72,16 @@ internal fun ApplicationEntity.asModel() = JobApplication(
     createdAt = createdAt,
     updatedAt = updatedAt,
 )
+
+internal fun JobApplication.asEntity() = ApplicationEntity(
+    jobId = jobId,
+    jobTitle = jobTitle,
+    companyName = companyName,
+    companyLogoUrl = companyLogoUrl,
+    applicationUrl = applicationUrl,
+    status = status,
+    notes = notes,
+    interviewAt = interviewAt,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+)

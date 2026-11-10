@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.tugakca.offerward.core.data.repository.ApplicationRepository
 import io.github.tugakca.offerward.core.model.ApplicationStatus
 import io.github.tugakca.offerward.core.model.JobApplication
+import io.github.tugakca.offerward.feature.applications.undo.StopTrackingEvents
 import java.time.Instant
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -49,6 +50,7 @@ sealed interface ApplicationDetailEffect {
 class ApplicationDetailViewModel @AssistedInject constructor(
     @Assisted private val jobId: String,
     private val repository: ApplicationRepository,
+    private val stopTrackingEvents: StopTrackingEvents,
 ) : ViewModel() {
 
     private val state = MutableStateFlow<ApplicationDetailUiState>(ApplicationDetailUiState.Loading)
@@ -88,8 +90,12 @@ class ApplicationDetailViewModel @AssistedInject constructor(
             }
 
             ApplicationDetailAction.StopTracking -> viewModelScope.launch {
+                // The draft may be ahead of the saved notes; undo should bring back what the user typed.
+                val snapshot = (state.value as? ApplicationDetailUiState.Loaded)
+                    ?.let { it.application.copy(notes = it.notesDraft) }
                 stoppedTracking = true
                 repository.untrack(jobId)
+                snapshot?.let { stopTrackingEvents.publish(it) }
                 effectChannel.send(ApplicationDetailEffect.Closed)
             }
         }

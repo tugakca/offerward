@@ -1,5 +1,6 @@
 package io.github.tugakca.offerward.core.data.repository
 
+import io.github.tugakca.offerward.core.data.model.asEntity
 import io.github.tugakca.offerward.core.data.model.asModel
 import io.github.tugakca.offerward.core.database.dao.ApplicationDao
 import io.github.tugakca.offerward.core.database.model.ApplicationEntity
@@ -50,4 +51,6 @@ internal class LocalApplicationRepository @Inject constructor(
         dao.updateInterviewAt(jobId, interviewAt, clock.instant())
 
     override suspend fun untrack(jobId: String) = dao.delete(jobId)
+
+    override suspend fun restore(application: JobApplication) = dao.upsert(application.asEntity())
 }

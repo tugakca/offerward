@@ -22,6 +22,8 @@
   <string name="feature_applications_stop_tracking_title">Smettere di seguire questo annuncio?</string>
   <string name="feature_applications_stop_tracking_body">Fase, note e data del colloquio verranno eliminate.</string>
   <string name="feature_applications_cancel">Annulla</string>
+  <string name="feature_applications_stopped_tracking">Hai smesso di seguire %1$s</string>
+  <string name="feature_applications_undo">Annulla</string>
   <string name="feature_applications_ok">OK</string>
   <string name="feature_applications_next">Avanti</string>
   <string name="feature_applications_not_found">Questa candidatura non esiste più.</string>

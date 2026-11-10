@@ -7,6 +7,7 @@ import io.github.tugakca.offerward.feature.applications.detail.ApplicationDetail
 import io.github.tugakca.offerward.feature.applications.detail.ApplicationDetailEffect
 import io.github.tugakca.offerward.feature.applications.detail.ApplicationDetailUiState
 import io.github.tugakca.offerward.feature.applications.detail.ApplicationDetailViewModel
+import io.github.tugakca.offerward.feature.applications.undo.StopTrackingEvents
 import java.time.Instant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,6 +23,7 @@ import org.junit.Test
 class ApplicationDetailViewModelTest {
 
     private val repository = FakeApplicationRepository(listOf(application("1", notes = "first")))
+    private val events = StopTrackingEvents()
 
     @Before
     fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
@@ -31,7 +33,7 @@ class ApplicationDetailViewModelTest {
 
     @Test
     fun loadsTheApplicationAndSeedsTheNotesDraft() {
-        val viewModel = ApplicationDetailViewModel("1", repository)
+        val viewModel = ApplicationDetailViewModel("1", repository, events)
 
         val state = viewModel.uiState.value as ApplicationDetailUiState.Loaded
         assertThat(state.application.jobId).isEqualTo("1")
@@ -40,14 +42,14 @@ class ApplicationDetailViewModelTest {
 
     @Test
     fun anUnknownJobIsNotFound() {
-        val viewModel = ApplicationDetailViewModel("missing", repository)
+        val viewModel = ApplicationDetailViewModel("missing", repository, events)
 
         assertThat(viewModel.uiState.value).isEqualTo(ApplicationDetailUiState.NotFound)
     }
 
     @Test
     fun changingTheStageIsSavedAndShown() {
-        val viewModel = ApplicationDetailViewModel("1", repository)
+        val viewModel = ApplicationDetailViewModel("1", repository, events)
 
         viewModel.onAction(ApplicationDetailAction.ChangeStatus(ApplicationStatus.OFFER))
 
@@ -57,7 +59,7 @@ class ApplicationDetailViewModelTest {
 
     @Test
     fun typingIsSavedButNeverOverwrittenByTheDatabaseEcho() {
-        val viewModel = ApplicationDetailViewModel("1", repository)
+        val viewModel = ApplicationDetailViewModel("1", repository, events)
 
         viewModel.onAction(ApplicationDetailAction.NotesChanged("first n"))
         viewModel.onAction(ApplicationDetailAction.NotesChanged("first no"))
@@ -70,7 +72,7 @@ class ApplicationDetailViewModelTest {
 
     @Test
     fun theInterviewDateCanBeSetAndCleared() {
-        val viewModel = ApplicationDetailViewModel("1", repository)
+        val viewModel = ApplicationDetailViewModel("1", repository, events)
         val at = Instant.parse("2026-11-12T10:00:00Z")
 
         viewModel.onAction(ApplicationDetailAction.SetInterview(at))
@@ -82,7 +84,7 @@ class ApplicationDetailViewModelTest {
 
     @Test
     fun stopTrackingDeletesClosesTheScreenAndNeverFlashesNotFound() = runTest {
-        val viewModel = ApplicationDetailViewModel("1", repository)
+        val viewModel = ApplicationDetailViewModel("1", repository, events)
 
         viewModel.effects.test {
             viewModel.onAction(ApplicationDetailAction.StopTracking)
@@ -91,5 +93,19 @@ class ApplicationDetailViewModelTest {
         }
         assertThat(repository.applications.value).isEmpty()
         assertThat(viewModel.uiState.value).isInstanceOf(ApplicationDetailUiState.Loaded::class.java)
+    }
+
+    @Test
+    fun stopTrackingPublishesTheFullApplicationIncludingUnsavedNotes() = runTest {
+        val interview = application("1", status = ApplicationStatus.INTERVIEW, interviewAt = "2026-11-14T13:00:00Z")
+        val repository = FakeApplicationRepository(listOf(interview))
+        val viewModel = ApplicationDetailViewModel("1", repository, events)
+        viewModel.onAction(ApplicationDetailAction.NotesChanged("typed just now"))
+
+        events.stopped.test {
+            viewModel.onAction(ApplicationDetailAction.StopTracking)
+
+            assertThat(awaitItem()).isEqualTo(interview.copy(notes = "typed just now"))
+        }
     }
 }

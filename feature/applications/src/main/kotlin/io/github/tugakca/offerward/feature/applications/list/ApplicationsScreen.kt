@@ -39,6 +39,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.tugakca.offerward.core.designsystem.component.CompanyLogo
 import io.github.tugakca.offerward.core.designsystem.component.StateMessage
+import io.github.tugakca.offerward.core.designsystem.motion.animateListItem
+import io.github.tugakca.offerward.core.designsystem.motion.sharedElementOrNone
 import io.github.tugakca.offerward.core.designsystem.theme.OfferwardTheme
 import io.github.tugakca.offerward.core.model.ApplicationStatus
 import io.github.tugakca.offerward.core.model.JobApplication
@@ -105,18 +107,18 @@ internal fun ApplicationsScreen(
                             text = summaryOf(state),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.animateItem(),
+                            modifier = animateListItem(),
                         )
                     }
                     state.sections.forEach { section ->
                         item(key = "header-${section.status}") {
-                            SectionHeader(section, modifier = Modifier.animateItem())
+                            SectionHeader(section, modifier = animateListItem())
                         }
                         items(section.applications, key = { it.jobId }) { application ->
                             ApplicationCard(
                                 application = application,
                                 onClick = { onApplicationClick(application.jobId) },
-                                modifier = Modifier.animateItem(),
+                                modifier = animateListItem(),
                             )
                         }
                     }
@@ -166,7 +168,12 @@ private fun ApplicationCard(application: JobApplication, onClick: () -> Unit, mo
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            CompanyLogo(logoUrl = application.companyLogoUrl, companyName = application.companyName, size = 40.dp)
+            CompanyLogo(
+                logoUrl = application.companyLogoUrl,
+                companyName = application.companyName,
+                modifier = Modifier.sharedElementOrNone(applicationLogoKey(application.jobId)),
+                size = 40.dp,
+            )
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = application.jobTitle,
@@ -201,6 +208,9 @@ private fun ApplicationCard(application: JobApplication, onClick: () -> Unit, mo
         }
     }
 }
+
+/** Shared-element key of the logo that travels between an application's card and its detail screen. */
+internal fun applicationLogoKey(jobId: String) = "application-logo-$jobId"
 
 internal val previewApplication = JobApplication(
     jobId = "1",

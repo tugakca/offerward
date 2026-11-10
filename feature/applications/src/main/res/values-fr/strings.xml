@@ -22,6 +22,8 @@
   <string name="feature_applications_stop_tracking_title">Ne plus suivre cette offre ?</string>
   <string name="feature_applications_stop_tracking_body">Son étape, ses notes et sa date d\'entretien seront supprimées.</string>
   <string name="feature_applications_cancel">Annuler</string>
+  <string name="feature_applications_stopped_tracking">Vous ne suivez plus %1$s</string>
+  <string name="feature_applications_undo">Annuler</string>
   <string name="feature_applications_ok">OK</string>
   <string name="feature_applications_next">Suivant</string>
   <string name="feature_applications_not_found">Cette candidature n\'existe plus.</string>

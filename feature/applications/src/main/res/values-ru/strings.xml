@@ -22,6 +22,8 @@
   <string name="feature_applications_stop_tracking_title">Перестать отслеживать вакансию?</string>
   <string name="feature_applications_stop_tracking_body">Этап, заметки и дата собеседования будут удалены.</string>
   <string name="feature_applications_cancel">Отмена</string>
+  <string name="feature_applications_stopped_tracking">Вы перестали отслеживать «%1$s»</string>
+  <string name="feature_applications_undo">Отменить</string>
   <string name="feature_applications_ok">ОК</string>
   <string name="feature_applications_next">Далее</string>
   <string name="feature_applications_not_found">Этот отклик больше не существует.</string>

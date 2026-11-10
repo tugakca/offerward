@@ -26,6 +26,8 @@ internal class FakeApplicationRepository : ApplicationRepository {
     override suspend fun setInterviewAt(jobId: String, interviewAt: Instant?) = error("not used")
 
     override suspend fun untrack(jobId: String) = error("not used")
+
+    override suspend fun restore(application: JobApplication) = error("not used")
 }
 
 internal fun application(jobId: String, status: ApplicationStatus) = JobApplication(
