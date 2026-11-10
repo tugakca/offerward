@@ -36,7 +36,7 @@ An AI module lands with the job summary feature.
 - [x] Project skeleton, build-logic, CI
 - [x] Himalayas API client and Room cache (offline-first, refresh policy)
 - [x] Discover: list, search, filters, pull-to-refresh, job detail
-- [ ] Applications: pipeline, notes, interview date
+- [x] Applications: pipeline, notes, interview date
 - [ ] Release setup, Crashlytics, closed testing on Google Play
 - [ ] On-device job summary with ML Kit GenAI (Gemini Nano), hidden on unsupported devices
 - [ ] Interview reminders
@@ -57,6 +57,10 @@ Requires JDK 17 and the Android SDK (compileSdk 37).
 **A refresh policy instead of refreshing on every screen open.** The source updates its data daily, so automatic refreshes run at most every 6 hours and pull-to-refresh at most every 15 minutes. When pull-to-refresh is skipped, the app says when the next one is allowed.
 
 **One broad query on the server, every filter on the device.** The app fetches the 100 newest jobs matching "developer" from every country. Measured on the live API, that query returns about 95% software roles, while the unfiltered feed is mostly non-tech. Text search and the Android / Senior / Worldwide chips are Room queries, so changing a filter costs no request. Each card shows where the company hires from, because "remote" often means "remote, but only from one country".
+
+**Notes are owned by the text field while you type.** The notes draft is seeded once from Room and then lives in the screen state; every keystroke is saved, but the database echo never overwrites the field, so the cursor never jumps and no character is lost. Saves are conflated, so fast typing never queues stale writes.
+
+**Most urgent first.** Applications are grouped Interview → Applied → Saved → Offer → Rejected, with the soonest interview on top. Setting an interview date moves the application to the Interview stage.
 
 **MVI on every screen.** One immutable `UiState`, actions in through a single `onAction`, a pure `reduce(state, mutation)` function, and one-off effects (snackbars) through a `Channel` so they are shown once and not replayed on rotation. The reducer and the ViewModel are covered by plain JVM tests.
 
