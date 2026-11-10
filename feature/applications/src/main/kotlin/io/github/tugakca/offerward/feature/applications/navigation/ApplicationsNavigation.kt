@@ -6,10 +6,10 @@ import io.github.tugakca.offerward.feature.applications.ApplicationsScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object ApplicationsRoute : NavKey
+data object ApplicationsKey : NavKey
 
 fun EntryProviderScope<NavKey>.applicationsEntries() {
-    entry<ApplicationsRoute> {
+    entry<ApplicationsKey> {
         ApplicationsScreen()
     }
 }

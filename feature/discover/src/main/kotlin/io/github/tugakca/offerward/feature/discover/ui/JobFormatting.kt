@@ -1,0 +1,56 @@
+package io.github.tugakca.offerward.feature.discover.ui
+
+import android.text.format.DateUtils
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
+import io.github.tugakca.offerward.core.model.Job
+import io.github.tugakca.offerward.core.model.Salary
+import io.github.tugakca.offerward.feature.discover.R
+import java.time.Instant
+import java.util.Currency
+import kotlin.math.roundToInt
+
+/** "Worldwide", "Turkey, Germany" or "Open in 42 countries". */
+@Composable
+internal fun Job.locationLabel(): String = when {
+    isWorldwide -> stringResource(R.string.feature_discover_worldwide)
+
+    locationRestrictions.size <= 2 -> locationRestrictions.joinToString()
+
+    else -> pluralStringResource(
+        R.plurals.feature_discover_open_in_countries,
+        locationRestrictions.size,
+        locationRestrictions.size,
+    )
+}
+
+/** "2 hours ago", relative to [now]. */
+internal fun Instant.relativeTo(now: Instant): String = DateUtils.getRelativeTimeSpanString(
+    toEpochMilli(),
+    now.toEpochMilli(),
+    DateUtils.MINUTE_IN_MILLIS,
+).toString()
+
+/** "$70k–90k / year". Null when the listing has no usable salary. */
+internal fun Salary.formatted(): String? {
+    val symbol = currency?.let { runCatching { Currency.getInstance(it).symbol }.getOrNull() ?: "$it " } ?: ""
+    val low = min
+    val high = max
+    val range = when {
+        low != null && high != null && low != high -> "${low.compact()}–${high.compact()}"
+        low != null -> low.compact()
+        high != null -> high.compact()
+        else -> return null
+    }
+    val per = when (period) {
+        "annual" -> " / year"
+        "monthly" -> " / month"
+        "weekly" -> " / week"
+        "hourly" -> " / hour"
+        else -> ""
+    }
+    return "$symbol$range$per"
+}
+
+private fun Double.compact(): String = if (this >= 1_000) "${(this / 1_000).roundToInt()}k" else roundToInt().toString()

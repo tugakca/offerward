@@ -14,11 +14,6 @@ interface JobRepository {
 
     fun observeJob(id: String): Flow<Job?>
 
-    /** ISO country code the remote search is scoped to; empty means any country. */
-    val countryCode: Flow<String>
-
-    suspend fun setCountryCode(code: String)
-
     /**
      * Refreshes the cache unless it is still fresh. [userInitiated] (pull-to-refresh) uses a
      * shorter minimum interval than automatic refreshes. Never throws; failures are returned.

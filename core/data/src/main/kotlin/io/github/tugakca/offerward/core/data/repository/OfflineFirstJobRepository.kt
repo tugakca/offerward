@@ -15,7 +15,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -40,10 +39,6 @@ internal class OfflineFirstJobRepository @Inject constructor(
 
     override fun observeJob(id: String): Flow<Job?> = jobDao.observeJob(id).map { it?.asModel() }
 
-    override val countryCode: Flow<String> = settings.countryCode
-
-    override suspend fun setCountryCode(code: String) = settings.setCountryCode(code)
-
     override suspend fun refresh(userInitiated: Boolean): RefreshResult = refreshMutex.withLock {
         val now = clock.instant()
         val minInterval = if (userInitiated) USER_REFRESH_INTERVAL else AUTO_REFRESH_INTERVAL
@@ -53,8 +48,7 @@ internal class OfflineFirstJobRepository @Inject constructor(
         }
 
         try {
-            val country = settings.countryCode.first().ifBlank { null }
-            val jobs = network.searchJobs(query = SEARCH_QUERY, countryCode = country, maxPages = MAX_PAGES)
+            val jobs = network.searchJobs(query = SEARCH_QUERY, countryCode = null, maxPages = MAX_PAGES)
                 .filterNot { it.isExpiredAt(now) }
                 .map { it.asEntity() }
             jobDao.replaceAll(jobs)
@@ -69,9 +63,13 @@ internal class OfflineFirstJobRepository @Inject constructor(
     }
 
     internal companion object {
-        /** The remote search is broad on purpose; the "Android only" chip narrows it on device. */
-        const val SEARCH_QUERY = "android"
-        const val MAX_PAGES = 3
+        /**
+         * Newest software jobs from every country. Measured on the live API: "developer" sorted by
+         * recency returns ~95% tech roles, while the unfiltered feed is mostly non-tech. The chips
+         * (Android, Senior, Worldwide) narrow this on the device.
+         */
+        const val SEARCH_QUERY = "developer"
+        const val MAX_PAGES = 5
 
         /** Himalayas refreshes its data daily, so polling more often than this gains nothing. */
         val AUTO_REFRESH_INTERVAL: Duration = Duration.ofHours(6)
