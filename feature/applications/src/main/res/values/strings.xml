@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="feature_applications_placeholder">Jobs you save and apply to will show up here.</string>
+  <string name="feature_applications_status_saved">Saved</string>
+  <string name="feature_applications_status_applied">Applied</string>
+  <string name="feature_applications_status_interview">Interview</string>
+  <string name="feature_applications_status_offer">Offer</string>
+  <string name="feature_applications_status_rejected">Rejected</string>
+  <string name="feature_applications_interview_at">Interview: %1$s</string>
+  <string name="feature_applications_empty_title">No applications yet</string>
+  <string name="feature_applications_empty_body">Open a job in Discover and tap Track application to follow it from saved to offer.</string>
+  <string name="feature_applications_browse_jobs">Browse jobs</string>
+  <string name="feature_applications_back">Back</string>
+  <string name="feature_applications_stage">Stage</string>
+  <string name="feature_applications_interview">Interview date</string>
+  <string name="feature_applications_set_interview">Set interview date</string>
+  <string name="feature_applications_change">Change</string>
+  <string name="feature_applications_clear">Clear</string>
+  <string name="feature_applications_notes">Notes</string>
+  <string name="feature_applications_notes_hint">Recruiter, salary talks, questions to ask…</string>
+  <string name="feature_applications_open_posting">Open job posting</string>
+  <string name="feature_applications_stop_tracking">Stop tracking</string>
+  <string name="feature_applications_stop_tracking_title">Stop tracking this job?</string>
+  <string name="feature_applications_stop_tracking_body">Its stage, notes and interview date will be deleted.</string>
+  <string name="feature_applications_cancel">Cancel</string>
+  <string name="feature_applications_ok">OK</string>
+  <string name="feature_applications_next">Next</string>
+  <string name="feature_applications_not_found">This application no longer exists.</string>
+  <string name="feature_applications_tracked_since">Tracking since %1$s</string>
 </resources>
