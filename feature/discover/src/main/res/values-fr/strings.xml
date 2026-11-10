@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="feature_discover_search_hint">Rechercher un poste ou une entreprise</string>
+  <string name="feature_discover_clear_search">Effacer la recherche</string>
+  <string name="feature_discover_filter_senior">Senior</string>
+  <string name="feature_discover_worldwide">Monde entier</string>
+  <plurals name="feature_discover_open_in_countries">
+    <item quantity="one">Ouvert dans %d pays</item>
+    <item quantity="many">Ouvert dans %d pays</item>
+    <item quantity="other">Ouvert dans %d pays</item>
+  </plurals>
+  <string name="feature_discover_no_matches">Aucune offre ne correspond à ces filtres.</string>
+  <string name="feature_discover_clear_filters">Effacer les filtres</string>
+  <string name="feature_discover_empty">Aucune offre pour l\'instant.</string>
+  <string name="feature_discover_error">Impossible de charger les offres. Vérifiez votre connexion et réessayez.</string>
+  <string name="feature_discover_retry">Réessayer</string>
+  <string name="feature_discover_refresh_failed">Échec de l\'actualisation. Affichage des offres enregistrées.</string>
+  <string name="feature_discover_up_to_date">Les offres sont à jour. Prochaine actualisation après %1$s.</string>
+  <string name="feature_discover_attribution">Offres via Himalayas et Jobicy</string>
+  <string name="feature_discover_sources_unavailable">Impossible de joindre %1$s. Affichage de ses offres enregistrées.</string>
+  <string name="feature_discover_back">Retour</string>
+  <string name="feature_discover_apply">Postuler</string>
+  <string name="feature_discover_track">Suivre la candidature</string>
+  <string name="feature_discover_tracked">Voir la candidature</string>
+  <string name="feature_discover_view_on_source">Voir sur %1$s</string>
+  <string name="feature_discover_open_to">Ouvert à</string>
+  <string name="feature_discover_show_all">Tout afficher</string>
+  <string name="feature_discover_posted">Publiée %1$s</string>
+  <string name="feature_discover_job_not_found">Cette offre n\'est plus publiée.</string>
+  <string name="feature_discover_salary_per_year">%1$s / an</string>
+  <string name="feature_discover_salary_per_month">%1$s / mois</string>
+  <string name="feature_discover_salary_per_week">%1$s / semaine</string>
+  <string name="feature_discover_salary_per_hour">%1$s / heure</string>
+</resources>

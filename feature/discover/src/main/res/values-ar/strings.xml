@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="feature_discover_search_hint">ابحث بالمسمى الوظيفي أو الشركة</string>
+  <string name="feature_discover_clear_search">مسح البحث</string>
+  <string name="feature_discover_filter_senior">خبير</string>
+  <string name="feature_discover_worldwide">جميع أنحاء العالم</string>
+  <plurals name="feature_discover_open_in_countries">
+    <item quantity="zero">متاحة في %d دولة</item>
+    <item quantity="one">متاحة في %d دولة</item>
+    <item quantity="two">متاحة في %d دولة</item>
+    <item quantity="few">متاحة في %d دول</item>
+    <item quantity="many">متاحة في %d دولة</item>
+    <item quantity="other">متاحة في %d دولة</item>
+  </plurals>
+  <string name="feature_discover_no_matches">لا توجد وظائف تطابق عوامل التصفية هذه.</string>
+  <string name="feature_discover_clear_filters">مسح عوامل التصفية</string>
+  <string name="feature_discover_empty">لا توجد وظائف بعد.</string>
+  <string name="feature_discover_error">تعذّر تحميل الوظائف. تحقّق من اتصالك وحاول مرة أخرى.</string>
+  <string name="feature_discover_retry">إعادة المحاولة</string>
+  <string name="feature_discover_refresh_failed">تعذّر التحديث. يتم عرض الوظائف المحفوظة.</string>
+  <string name="feature_discover_up_to_date">الوظائف محدّثة. التحديث التالي بعد %1$s.</string>
+  <string name="feature_discover_attribution">الوظائف من Himalayas وJobicy</string>
+  <string name="feature_discover_sources_unavailable">تعذّر الوصول إلى %1$s. يتم عرض وظائفه المحفوظة.</string>
+  <string name="feature_discover_back">رجوع</string>
+  <string name="feature_discover_apply">التقديم</string>
+  <string name="feature_discover_track">تتبّع الطلب</string>
+  <string name="feature_discover_tracked">عرض الطلب</string>
+  <string name="feature_discover_view_on_source">العرض على %1$s</string>
+  <string name="feature_discover_open_to">متاحة لـ</string>
+  <string name="feature_discover_show_all">عرض الكل</string>
+  <string name="feature_discover_posted">نُشرت %1$s</string>
+  <string name="feature_discover_job_not_found">لم تعد هذه الوظيفة معروضة.</string>
+  <string name="feature_discover_salary_per_year">%1$s سنويًا</string>
+  <string name="feature_discover_salary_per_month">%1$s شهريًا</string>
+  <string name="feature_discover_salary_per_week">%1$s أسبوعيًا</string>
+  <string name="feature_discover_salary_per_hour">%1$s في الساعة</string>
+</resources>

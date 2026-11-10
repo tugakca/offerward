@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="feature_discover_search_hint">職種または会社名で検索</string>
+  <string name="feature_discover_clear_search">検索をクリア</string>
+  <string name="feature_discover_filter_senior">シニア</string>
+  <string name="feature_discover_worldwide">全世界</string>
+  <plurals name="feature_discover_open_in_countries">
+    <item quantity="other">%d か国で募集</item>
+  </plurals>
+  <string name="feature_discover_no_matches">条件に合う求人はありません。</string>
+  <string name="feature_discover_clear_filters">フィルタをクリア</string>
+  <string name="feature_discover_empty">まだ求人はありません。</string>
+  <string name="feature_discover_error">求人を読み込めませんでした。接続を確認してもう一度お試しください。</string>
+  <string name="feature_discover_retry">再試行</string>
+  <string name="feature_discover_refresh_failed">更新できませんでした。保存済みの求人を表示しています。</string>
+  <string name="feature_discover_up_to_date">求人は最新です。次の更新は%1$s以降です。</string>
+  <string name="feature_discover_attribution">求人提供: Himalayas、Jobicy</string>
+  <string name="feature_discover_sources_unavailable">%1$sに接続できませんでした。保存済みの求人を表示しています。</string>
+  <string name="feature_discover_back">戻る</string>
+  <string name="feature_discover_apply">応募する</string>
+  <string name="feature_discover_track">応募を管理</string>
+  <string name="feature_discover_tracked">応募を見る</string>
+  <string name="feature_discover_view_on_source">%1$sで見る</string>
+  <string name="feature_discover_open_to">応募可能な国</string>
+  <string name="feature_discover_show_all">すべて表示</string>
+  <string name="feature_discover_posted">%1$sに掲載</string>
+  <string name="feature_discover_job_not_found">この求人は掲載終了しました。</string>
+  <string name="feature_discover_salary_per_year">%1$s / 年</string>
+  <string name="feature_discover_salary_per_month">%1$s / 月</string>
+  <string name="feature_discover_salary_per_week">%1$s / 週</string>
+  <string name="feature_discover_salary_per_hour">%1$s / 時</string>
+</resources>

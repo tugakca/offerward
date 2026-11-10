@@ -32,7 +32,8 @@ internal fun Instant.relativeTo(now: Instant): String = DateUtils.getRelativeTim
     DateUtils.MINUTE_IN_MILLIS,
 ).toString()
 
-/** "$70k–90k / year". Null when the listing has no usable salary. */
+/** "$70k–90k / year", in the app's language. Null when the listing has no usable salary. */
+@Composable
 internal fun Salary.formatted(): String? {
     val symbol = currency?.let { runCatching { Currency.getInstance(it).symbol }.getOrNull() ?: "$it " } ?: ""
     val low = min
@@ -43,14 +44,15 @@ internal fun Salary.formatted(): String? {
         high != null -> high.compact()
         else -> return null
     }
-    val per = when (period) {
-        "annual" -> " / year"
-        "monthly" -> " / month"
-        "weekly" -> " / week"
-        "hourly" -> " / hour"
-        else -> ""
+    val amount = "$symbol$range"
+    val perPeriod = when (period) {
+        "annual" -> R.string.feature_discover_salary_per_year
+        "monthly" -> R.string.feature_discover_salary_per_month
+        "weekly" -> R.string.feature_discover_salary_per_week
+        "hourly" -> R.string.feature_discover_salary_per_hour
+        else -> return amount
     }
-    return "$symbol$range$per"
+    return stringResource(perPeriod, amount)
 }
 
 private fun Double.compact(): String = if (this >= 1_000) "${(this / 1_000).roundToInt()}k" else roundToInt().toString()

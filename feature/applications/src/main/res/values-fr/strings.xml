@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="feature_applications_status_saved">Enregistrée</string>
+  <string name="feature_applications_status_applied">Envoyée</string>
+  <string name="feature_applications_status_interview">Entretien</string>
+  <string name="feature_applications_status_offer">Offre</string>
+  <string name="feature_applications_status_rejected">Refusée</string>
+  <string name="feature_applications_interview_at">Entretien : %1$s</string>
+  <string name="feature_applications_empty_title">Aucune candidature pour l\'instant</string>
+  <string name="feature_applications_empty_body">Ouvrez une offre dans Découvrir et appuyez sur Suivre la candidature pour la suivre de l\'enregistrement à l\'offre.</string>
+  <string name="feature_applications_browse_jobs">Parcourir les offres</string>
+  <string name="feature_applications_back">Retour</string>
+  <string name="feature_applications_stage">Étape</string>
+  <string name="feature_applications_interview">Date d\'entretien</string>
+  <string name="feature_applications_set_interview">Définir la date d\'entretien</string>
+  <string name="feature_applications_change">Modifier</string>
+  <string name="feature_applications_clear">Effacer</string>
+  <string name="feature_applications_notes">Notes</string>
+  <string name="feature_applications_notes_hint">Recruteur, négociation salariale, questions à poser…</string>
+  <string name="feature_applications_open_posting">Ouvrir l\'offre</string>
+  <string name="feature_applications_stop_tracking">Ne plus suivre</string>
+  <string name="feature_applications_stop_tracking_title">Ne plus suivre cette offre ?</string>
+  <string name="feature_applications_stop_tracking_body">Son étape, ses notes et sa date d\'entretien seront supprimées.</string>
+  <string name="feature_applications_cancel">Annuler</string>
+  <string name="feature_applications_ok">OK</string>
+  <string name="feature_applications_next">Suivant</string>
+  <string name="feature_applications_not_found">Cette candidature n\'existe plus.</string>
+  <string name="feature_applications_tracked_since">Suivie depuis le %1$s</string>
+</resources>

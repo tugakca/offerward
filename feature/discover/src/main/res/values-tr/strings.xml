@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="feature_discover_search_hint">Başlık veya şirket ara</string>
+  <string name="feature_discover_clear_search">Aramayı temizle</string>
+  <string name="feature_discover_filter_senior">Senior</string>
+  <string name="feature_discover_worldwide">Dünya geneli</string>
+  <plurals name="feature_discover_open_in_countries">
+    <item quantity="one">%d ülkede açık</item>
+    <item quantity="other">%d ülkede açık</item>
+  </plurals>
+  <string name="feature_discover_no_matches">Bu filtrelere uyan ilan yok.</string>
+  <string name="feature_discover_clear_filters">Filtreleri temizle</string>
+  <string name="feature_discover_empty">Henüz ilan yok.</string>
+  <string name="feature_discover_error">İlanlar yüklenemedi. Bağlantını kontrol edip tekrar dene.</string>
+  <string name="feature_discover_retry">Tekrar dene</string>
+  <string name="feature_discover_refresh_failed">Yenilenemedi. Kayıtlı ilanlar gösteriliyor.</string>
+  <string name="feature_discover_up_to_date">İlanlar güncel. Sonraki yenileme %1$s sonrasında.</string>
+  <string name="feature_discover_attribution">İlanlar: Himalayas ve Jobicy</string>
+  <string name="feature_discover_sources_unavailable">%1$s kaynağına ulaşılamadı. Oradan kayıtlı ilanlar gösteriliyor.</string>
+  <string name="feature_discover_back">Geri</string>
+  <string name="feature_discover_apply">Başvur</string>
+  <string name="feature_discover_track">Başvuruyu takip et</string>
+  <string name="feature_discover_tracked">Başvuruyu gör</string>
+  <string name="feature_discover_view_on_source">%1$s sitesinde gör</string>
+  <string name="feature_discover_open_to">Başvurabilen ülkeler</string>
+  <string name="feature_discover_show_all">Tümünü göster</string>
+  <string name="feature_discover_posted">%1$s yayınlandı</string>
+  <string name="feature_discover_job_not_found">Bu ilan artık yayında değil.</string>
+  <string name="feature_discover_salary_per_year">%1$s / yıl</string>
+  <string name="feature_discover_salary_per_month">%1$s / ay</string>
+  <string name="feature_discover_salary_per_week">%1$s / hafta</string>
+  <string name="feature_discover_salary_per_hour">%1$s / saat</string>
+</resources>

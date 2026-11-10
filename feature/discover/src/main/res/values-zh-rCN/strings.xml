@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="feature_discover_search_hint">搜索职位或公司</string>
+  <string name="feature_discover_clear_search">清除搜索</string>
+  <string name="feature_discover_filter_senior">资深</string>
+  <string name="feature_discover_worldwide">全球</string>
+  <plurals name="feature_discover_open_in_countries">
+    <item quantity="other">在 %d 个国家/地区开放</item>
+  </plurals>
+  <string name="feature_discover_no_matches">没有符合这些筛选条件的职位。</string>
+  <string name="feature_discover_clear_filters">清除筛选</string>
+  <string name="feature_discover_empty">暂无职位。</string>
+  <string name="feature_discover_error">无法加载职位。请检查网络连接后重试。</string>
+  <string name="feature_discover_retry">重试</string>
+  <string name="feature_discover_refresh_failed">刷新失败。正在显示已保存的职位。</string>
+  <string name="feature_discover_up_to_date">职位已是最新。下次可在 %1$s 之后刷新。</string>
+  <string name="feature_discover_attribution">职位来自 Himalayas 和 Jobicy</string>
+  <string name="feature_discover_sources_unavailable">无法连接 %1$s。正在显示其已保存的职位。</string>
+  <string name="feature_discover_back">返回</string>
+  <string name="feature_discover_apply">申请</string>
+  <string name="feature_discover_track">跟踪申请</string>
+  <string name="feature_discover_tracked">查看申请</string>
+  <string name="feature_discover_view_on_source">在 %1$s 上查看</string>
+  <string name="feature_discover_open_to">开放地区</string>
+  <string name="feature_discover_show_all">全部显示</string>
+  <string name="feature_discover_posted">发布于%1$s</string>
+  <string name="feature_discover_job_not_found">此职位已下架。</string>
+  <string name="feature_discover_salary_per_year">%1$s / 年</string>
+  <string name="feature_discover_salary_per_month">%1$s / 月</string>
+  <string name="feature_discover_salary_per_week">%1$s / 周</string>
+  <string name="feature_discover_salary_per_hour">%1$s / 小时</string>
+</resources>
